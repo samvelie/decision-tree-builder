@@ -46,5 +46,5 @@ AngularFire with token authentication on Node backend server
 
 ##License
 
-1. The software is registered under the [MIT License](https://github.com/LukeSchlangen/nodeFire/blob/master/LICENSE)
+1. The software is registered under the [MIT License](https://github.com/LukeSchlangen/nodeFire/blob/master/LICENSE.md)
 
