@@ -4,18 +4,8 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-// Public folder file routing
-// Index routing
-app.get("/", function(req,res){
-  res.sendFile(path.join(__dirname,"../public/index.html"));
-});
-
 // Static files
 app.use(express.static('public'));
-
-var port = process.env.PORT || 5000;
-
-app.set("port", port);
 
 firebase.initializeApp({
   serviceAccount: "./server/firebase-service-account.json",
@@ -45,18 +35,6 @@ app.get("/secretData", function(req, res){
 
 });
 
-// Handle 404
-app.use(function(req, res) {
-  res.status(400);
-  res.sendFile(path.join(__dirname,"../public/404.html"));
-});
-
-// Handle 500
-app.use(function(error, req, res, next) {
-  res.status(500);
-  res.sendFile(path.join(__dirname,"../public/500.html"));
-});
-
-app.listen(app.get("port"), function(){
+app.listen(process.env.PORT || 5000, function(){
   console.log("Listening on port: ", app.get("port"));
 });
