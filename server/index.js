@@ -4,6 +4,15 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 
+// Public folder file routing
+// Index routing
+app.get("/", function(req,res){
+  res.sendFile(path.join(__dirname,"../public/index.html"));
+});
+
+// Static files
+app.use(express.static('public'));
+
 var port = process.env.PORT || 5000;
 
 app.set("port", port);
@@ -28,17 +37,24 @@ app.get("/secretData", function(req, res){
 
     console.log(decodedToken); // Here you can see the information firebase gives you about the user
     res.send("Secret DATA!!! You got it!!!");
-  }).catch(function(error) {
+  })
+  .catch(function(error) {
     // If the id_token isn't right, you end up in this callback function
     res.send("No secret data for you!");
   });
 
 });
 
-// Public folder file routing
-app.get("/*", function(req,res){
-  var file = req.params[0] || "/index.html";
-  res.sendFile(path.join(__dirname,"../public/", file));
+// Handle 404
+app.use(function(req, res) {
+  res.status(400);
+  res.sendFile(path.join(__dirname,"../public/404.html"));
+});
+
+// Handle 500
+app.use(function(error, req, res, next) {
+  res.status(500);
+  res.sendFile(path.join(__dirname,"../public/500.html"));
 });
 
 app.listen(app.get("port"), function(){
