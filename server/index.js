@@ -26,7 +26,7 @@ app.get("/secretData", function(req, res){
     You can use the decodedToken and some logic to do that. */
 
     console.log(decodedToken); // Here you can see the information firebase gives you about the user
-    res.send("Secret DATA!!! You got it!!!");
+    res.send("Secret DATA!!! You got it!!! Great work " + decodedToken.name + "!!!");
   })
   .catch(function(error) {
     // If the id_token isn't right, you end up in this callback function
@@ -35,6 +35,8 @@ app.get("/secretData", function(req, res){
 
 });
 
-app.listen(process.env.PORT || 5000, function(){
-  console.log("Listening on port: ", app.get("port"));
+var portDecision = process.env.PORT || 5000;
+
+app.listen(portDecision, function(){
+  console.log("Listening on port: ", portDecision);
 });
