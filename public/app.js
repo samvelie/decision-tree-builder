@@ -19,14 +19,16 @@ app.controller("SampleCtrl", function($scope, $firebaseArray, $firebaseAuth, $ht
     // firebaseUser will be null if not logged in
     if(firebaseUser) {
       // This is where we make our call to our server
-      $http({
-        method: 'GET',
-        url: '/secretData',
-        headers: {
-          id_token: firebaseUser._lat
-        }
-      }).then(function(response){
-        $scope.secretData = response.data;
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'GET',
+          url: '/secretData',
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          $scope.secretData = response.data;
+        });
       });
     }else{
       console.log('Not logged in.');
