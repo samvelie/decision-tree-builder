@@ -22,7 +22,7 @@ app.controller("SampleCtrl", function($scope, $firebaseArray, $firebaseAuth, $ht
       firebaseUser.getToken().then(function(idToken){
         $http({
           method: 'GET',
-          url: '/secretData',
+          url: '/privateData',
           headers: {
             id_token: idToken
           }
