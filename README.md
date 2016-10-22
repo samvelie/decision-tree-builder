@@ -31,7 +31,7 @@ AngularFire with token authentication on Node backend server
 5. Follow the instructions at [Add Firebase to your App](https://firebase.google.com/docs/server/setup#add_firebase_to_your_app) to add a Firebase service account to your backend
   * Rename the new JSON file to `firebase-service-account.json` and save it in the `server` folder of your application
   
-6. Configure Google as an authentication provider for your Firebase project.
+6. Return to Firebase console. Configure Google as an authentication provider for your Firebase project.
   1. In the Firebase console for your project, click "Auth" in left panel
   2. Click "Set Up Sign-In Method" button
   3. Select "Google"
