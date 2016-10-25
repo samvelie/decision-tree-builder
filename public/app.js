@@ -3,7 +3,7 @@ app.controller("SampleCtrl", function($scope, $firebaseArray, $firebaseAuth, $ht
   var auth = $firebaseAuth();
 
   // This code runs whenever the user logs in
-  $scope.logIn = function login(){
+  $scope.logIn = function(){
     auth.$signInWithPopup("google").then(function(firebaseUser) {
       console.log("Signed in as:", firebaseUser.user.displayName);
     }).catch(function(error) {
