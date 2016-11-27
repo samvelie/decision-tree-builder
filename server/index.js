@@ -30,6 +30,7 @@ app.get("/privateData", function(req, res){
   })
   .catch(function(error) {
     // If the id_token isn't right, you end up in this callback function
+    // Here we are simply returning a string reaponse, but a forbidden error may be better
     res.send("No secret data for you!");
   });
 
