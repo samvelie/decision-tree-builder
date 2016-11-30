@@ -33,6 +33,7 @@ AngularFire with token authentication on Node backend server
   2. Select your Firebase project.
   3. Copy your `databaseURL` from the `Admin SDK configuration snippet`. The line you need will look like this: `databaseURL: "https://XXXXXXXXX.firebaseio.com"`.
   4. Navigate to the `server/app.js` file in the node project and replace the databaseURL. Only replace that line. It is inside of the `admin.initializeApp`:
+  
     ```javascript
     admin.initializeApp({
       credential: admin.credential.cert("./server/firebase-service-account.json"),
