@@ -1,9 +1,10 @@
 var app = angular.module("sampleApp", ["firebase"]);
-app.controller("SampleCtrl", function($scope, $firebaseArray, $firebaseAuth, $http) {
+app.controller("SampleCtrl", function($firebaseAuth, $http) {
   var auth = $firebaseAuth();
+  var self = this;
 
   // This code runs whenever the user logs in
-  $scope.logIn = function(){
+  self.logIn = function(){
     auth.$signInWithPopup("google").then(function(firebaseUser) {
       console.log("Signed in as:", firebaseUser.user.displayName);
     }).catch(function(error) {
@@ -27,18 +28,18 @@ app.controller("SampleCtrl", function($scope, $firebaseArray, $firebaseAuth, $ht
             id_token: idToken
           }
         }).then(function(response){
-          $scope.secretData = response.data;
+          self.secretData = response.data;
         });
       });
     }else{
       console.log('Not logged in.');
-      $scope.secretData = "Log in to get some secret data."
+      self.secretData = "Log in to get some secret data."
     }
 
   });
 
   // This code runs when the user logs out
-  $scope.logOut = function(){
+  self.logOut = function(){
     auth.$signOut().then(function(){
       console.log('Logging the user out!');
     });

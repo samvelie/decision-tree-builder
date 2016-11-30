@@ -18,12 +18,12 @@
     <!-- Angular Application with Authentication -->
     <script src="client.js"></script>
   </head>
-  <body ng-controller="SampleCtrl">
+  <body ng-controller="SampleCtrl as sc">
     <h1>Hi! Log in to get some secret data from the server!</h1>
-    <button ng-click="logIn()">Log In</button>
-    <button ng-click="logOut()">Log Out</button>
+    <button ng-click="sc.logIn()">Log In</button>
+    <button ng-click="sc.logOut()">Log Out</button>
     <div>
-      {{secretData}}
+      {{sc.secretData}}
     </div>
   </body>
 </html>
