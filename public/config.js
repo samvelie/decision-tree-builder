@@ -32,10 +32,10 @@
 /////////////////////////////////////////////////////////
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyBql0odmgyLvsCsi2xC-VbDj5eZieoYT0A",
-  authDomain: "firenode-155ef.firebaseapp.com",
-  databaseURL: "https://firenode-155ef.firebaseio.com",
-  storageBucket: "firenode-155ef.appspot.com",
-  messagingSenderId: "669774409440"
+  apiKey: "AIzaSyAU9OZTcXLQpS0VheZz7Xy-UpqLGBKlXlY",
+  authDomain: "sigma-test-run.firebaseapp.com",
+  databaseURL: "https://sigma-test-run.firebaseio.com",
+  storageBucket: "sigma-test-run.appspot.com",
+  messagingSenderId: "279228406571"
 };
 firebase.initializeApp(config);

@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "test": "nodemon server/index.js"
+    "start": "node server/app.js",
+    "test": "nodemon server/app.js"
   },
   "author": "Luke Schlangen",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "firebase": "^3.4.1"
+    "firebase-admin": "^4.0.3"
   }
 }

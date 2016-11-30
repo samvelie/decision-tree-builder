@@ -8,7 +8,7 @@ AngularFire with token authentication on Node backend server
   $ cd nodeFire
   $ npm install
   ```
-  
+
 2. Create a free Firebase account at https://firebase.google.com
 
 3. Create a project from your Firebase account console
@@ -27,12 +27,24 @@ AngularFire with token authentication on Node backend server
     };
     firebase.initializeApp(config);
   ```
-  
-5. Follow the instructions at [Add Firebase to your App](https://firebase.google.com/docs/server/setup#add_firebase_to_your_app) to add a Firebase service account to your backend
-  * Rename the new JSON file to `firebase-service-account.json` and save it in the `server` folder of your application
-  
+
+5. Add a firebase service account to you node project
+  1. Navigate to the [Service Accounts](https://console.firebase.google.com/project/_/settings/serviceaccounts/adminsdk) tab in your project's settings page.
+  2. Select your Firebase project.
+  3. Copy your `databaseURL` from the `Admin SDK configuration snippet`. The line you need will look like this: `databaseURL: "https://XXXXXXXXX.firebaseio.com"`.
+  4. Navigate to the `server/app.js` file in the node project and replace the databaseURL. Only replace that line. It is inside of the `admin.initializeApp`:
+  ```javascript
+  admin.initializeApp({
+    credential: admin.credential.cert("./server/firebase-service-account.json"),
+    databaseURL: "https://XXXXXXXXX.firebaseio.com" // replace this line with your URL
+  });
+  ```
+  5. Return to firebase [Service Accounts](https://console.firebase.google.com/project/_/settings/serviceaccounts/adminsdk). Navigate to your project again if you have left it.
+  6. Click the Generate New Private Key button at the bottom of the Firebase Admin SDK section of the Service Accounts tab.
+  7. Rename the new JSON file to `firebase-service-account.json` and save it in the `server` folder of your application.
+
 6. Return to Firebase console. Configure Google as an authentication provider for your Firebase project.
-  1. In the Firebase console for your project, click "Auth" in left panel
+  1. In the Firebase console for your project (you may already be there from the previous step), click "Authentication" in left panel
   2. Click "Set Up Sign-In Method" button
   3. Select "Google"
   4. Click the "edit" icon
@@ -47,4 +59,3 @@ AngularFire with token authentication on Node backend server
 ##License
 
 1. The software is registered under the [MIT License](https://github.com/LukeSchlangen/nodeFire/blob/master/LICENSE.md)
-
