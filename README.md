@@ -13,27 +13,28 @@ AngularFire with token authentication on Node backend server
 
 3. Create a project from your Firebase account console
 
-4. Click the “Add Firebase to your web app” icon
+4. Add a connection to firebase on your front end
+  1. Click the “Add Firebase to your web app” icon
+  2. Copy the contents WITHOUT SCRIPT TAGS or the CDN from the resulting popup into `public/config.js`. It should look like this:
 
-  * Copy the contents WITHOUT SCRIPT TAGS or the CDN from the resulting popup into `public/config.js`. It should look like this:
-  ```javascript
-    // Initialize Firebase
-    var config = {
-      apiKey: "XXXXXXXXXXXXXXXXXXXXXX",
-      authDomain: "XXXXXXXXXXXX.firebaseapp.com",
-      databaseURL: "https://XXXXXXXXXXXX.firebaseio.com",
-      storageBucket: "XXXXXXXXXXXX.appspot.com",
-      messagingSenderId: "XXXXXXXXXX"
-    };
-    firebase.initializeApp(config);
-  ```
+    ```javascript
+      // Initialize Firebase
+      var config = {
+        apiKey: "XXXXXXXXXXXXXXXXXXXXXX",
+        authDomain: "XXXXXXXXXXXX.firebaseapp.com",
+        databaseURL: "https://XXXXXXXXXXXX.firebaseio.com",
+        storageBucket: "XXXXXXXXXXXX.appspot.com",
+        messagingSenderId: "XXXXXXXXXX"
+      };
+      firebase.initializeApp(config);
+    ```
 
 5. Add a firebase service account to you node project
   1. Navigate to the [Service Accounts](https://console.firebase.google.com/project/_/settings/serviceaccounts/adminsdk) tab in your project's settings page.
   2. Select your Firebase project.
   3. Copy your `databaseURL` from the `Admin SDK configuration snippet`. The line you need will look like this: `databaseURL: "https://XXXXXXXXX.firebaseio.com"`.
   4. Navigate to the `server/app.js` file in the node project and replace the databaseURL. Only replace that line. It is inside of the `admin.initializeApp`:
-  
+
     ```javascript
     admin.initializeApp({
       credential: admin.credential.cert("./server/firebase-service-account.json"),
