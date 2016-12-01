@@ -6,7 +6,7 @@ app.controller("SampleCtrl", function($firebaseAuth, $http) {
   // This code runs whenever the user logs in
   self.logIn = function(){
     auth.$signInWithPopup("google").then(function(firebaseUser) {
-      console.log("Signed in as:", firebaseUser.user.displayName);
+      console.log("Firebase Authenticated as: ", firebaseUser.user.displayName);
     }).catch(function(error) {
       console.log("Authentication failed: ", error);
     });
@@ -31,8 +31,8 @@ app.controller("SampleCtrl", function($firebaseAuth, $http) {
           self.secretData = response.data;
         });
       });
-    }else{
-      console.log('Not logged in.');
+    } else {
+      console.log('Not logged in or not authorized.');
       self.secretData = "Log in to get some secret data.";
     }
 
