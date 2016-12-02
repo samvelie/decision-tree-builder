@@ -54,10 +54,10 @@ AngularFire with token authentication on Node backend server
 
 7. Run `npm start` to run your application on `localhost:5000`
 
-##Contributing
+## Contributing
 1. The repository is open to contribution from all interested developers. Kindly send us Pull Requests with explanation as to what changes you have done.
 2. Also, you can write to us by opening an [Issue](https://github.com/LukeSchlangen/nodeFire/issues) and also solve a current issue if possible.
 
-##License
+## License
 
 1. The software is registered under the [MIT License](https://github.com/LukeSchlangen/nodeFire/blob/master/LICENSE.md)
