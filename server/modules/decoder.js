@@ -5,8 +5,9 @@ admin.initializeApp({
   databaseURL: "https://sigma-test-run.firebaseio.com" // replace this line with your URL
 });
 
-/* This is where the magic happens. We pull the idtoken off of the request,
-verify it against our private_key, and then we return the decodedToken */
+/* This is where the magic happens. We pull the id_token off of the request,
+verify it against our firebase service account private_key.
+Then we add the decodedToken */
 var tokenDecoder = function(req, res, next){
   admin.auth().verifyIdToken(req.headers.id_token).then(function(decodedToken) {
     // Adding the decodedToken to the request so that downstream processes can use it

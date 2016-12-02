@@ -10,10 +10,11 @@ app.use(bodyParser.json());
 // Decodes the token in the request header and attaches the decoded token to the request.
 app.use(decoder.token);
 
-/* Whatever you do in below is protected by your authorization.
-WARNING: So far you are returning secret data to ANYONE who is logged in
-there is still more work to be done if you want to implement roles.
-You can use the decodedToken and some logic to do that.
+/* Whatever you do below is protected by your authentication.
+WARNING: So far you are returning secret data to ANYONE who is logged in.
+There is still more work to be done if you want to implement roles.
+No authorization has been completed yet in this branch.
+You can use req.decodedToken and some logic to do that.
 Other branches in the nodeFire repository show how to do that. */
 
 // This is the route for your secretData. The request gets here after it has been authenticated.
