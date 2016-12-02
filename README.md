@@ -15,7 +15,7 @@ AngularFire with token authentication on Node backend server
 
 4. Add a connection to firebase on your front end
   1. Click the “Add Firebase to your web app” icon
-  2. Copy the contents WITHOUT SCRIPT TAGS or the CDN from the resulting popup into `public/config.js`. It should look like this:
+  2. Copy the contents WITHOUT SCRIPT TAGS or the CDN from the resulting popup into `public/scripts/config.js`. It should look like this:
 
     ```javascript
       // Initialize Firebase

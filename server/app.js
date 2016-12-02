@@ -5,6 +5,10 @@ var bodyParser = require('body-parser');
 var decoder = require('./modules/decoder');
 var privateData = require('./routes/private-data');
 
+app.get('/', function(req, res){
+  res.sendFile(path.resolve('./public/views/index.html'));
+});
+
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
