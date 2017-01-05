@@ -105,16 +105,16 @@ This is incredibly tedious the first time, but will automatically deploy your ap
     ```javascript
     admin.initializeApp({
       credential: admin.credential.cert({
-        "type": process.env.FIREBASE_TYPE,
-        "project_id": process.env.FIREBASE_PROJECT_ID,
-        "private_key_id": process.env.FIREBASE_PRIVATE_KEY_ID,
-        "private_key": process.env.FIREBASE_PRIVATE_KEY,
-        "client_email": process.env.FIREBASE_CLIENT_EMAIL,
-        "client_id": process.env.FIREBASE_CLIENT_ID,
-        "auth_uri": process.env.FIREBASE_AUTH_URI,
-        "token_uri": process.env.FIREBASE_TOKEN_URI,
-        "auth_provider_x509_cert_url": process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-        "client_x509_cert_url": process.env.FIREBASE_CLIENT_X509_CERT_URL
+        "type": process.env.FIREBASE_SERVICE_ACCOUNT_TYPE,
+        "project_id": process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+        "private_key_id": process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
+        "private_key": process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY,
+        "client_email": process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+        "client_id": process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_ID,
+        "auth_uri": process.env.FIREBASE_SERVICE_ACCOUNT_AUTH_URI,
+        "token_uri": process.env.FIREBASE_SERVICE_ACCOUNT_TOKEN_URI,
+        "auth_provider_x509_cert_url": process.env.FIREBASE_SERVICE_ACCOUNT_AUTH_PROVIDER_X509_CERT_URL,
+        "client_x509_cert_url": process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_X509_CERT_URL
       }),
       databaseURL: "https://my-firebase-app.firebaseio.com"
     });
@@ -125,7 +125,7 @@ This is incredibly tedious the first time, but will automatically deploy your ap
 2. Deploy to Heroku
   1. Create an [Heroku](https://www.heroku.com/) account.
   2. Create a new Heroku Application.
-  3. Under the `Settings` tab, in the `Config Variables` section, select `Reveal Config Vars`. Here you will need to add every configuration variable to the list (everything on the left side of the equals sign in your .env file is the key, everything on the right side is the value)
+  3. Under the `Settings` tab, in the `Config Variables` section, select `Reveal Config Vars`. Here you will need to add every configuration variable to the list (everything on the left side of the equals sign in your `.env` file is the key, everything on the right side is the value)
   4. Under the `Deploy` tab, in the `Deployment Method` section, select `Github`. Connect to the Github repository with your application.
   5. In the `Manual Deploy` section, click `Deploy Branch` to deploy for the first time.
 
