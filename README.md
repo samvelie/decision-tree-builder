@@ -129,7 +129,11 @@ This is incredibly tedious the first time, but will automatically deploy your ap
   4. Under the `Deploy` tab, in the `Deployment Method` section, select `Github`. Connect to the Github repository with your application.
   5. In the `Manual Deploy` section, click `Deploy Branch` to deploy for the first time.
 
-
+3. Update firebase to allow another domain
+  1. Return to the [firebase console](https://console.firebase.google.com/project/_/authentication/providers) and select your current project.
+  2. If the link from the step above doesn't navigate you there automatically, navigate to authentication in the left hand navigation and select `SIGN-IN MMETHOD`
+  3. Scroll down to the `OAuth redirect domains` section and click the `ADD DOMAIN` button
+  4. Add the new domain that your site is being hosted on, likely something like `https://rushing-waterfall.herokuapp.com/`
 
 ## Contributing
 1. The repository is open to contribution from all interested developers. Kindly send us Pull Requests with explanation as to what changes you have done.
