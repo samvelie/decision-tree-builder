@@ -65,6 +65,26 @@ app.controller("SampleCtrl", function($firebaseAuth, $http) {
     }
   };
 
+  self.getTreeNodes = function(treeId) {
+    var firebaseUser = auth.$getAuth();
+
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'GET',
+          url: '/trees/' + treeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          self.treeNodes = response.data;
+        });
+      });
+    } else {
+      console.log('Not logged in or not authorized.');
+    }
+  };
+
   // This code runs when the user logs out
   self.logOut = function() {
     auth.$signOut().then(function(){
