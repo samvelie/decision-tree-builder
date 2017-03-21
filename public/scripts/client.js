@@ -23,7 +23,7 @@ app.controller("SampleCtrl", function($firebaseAuth, $http) {
       firebaseUser.getToken().then(function(idToken){
         $http({
           method: 'GET',
-          url: '/privateData',
+          url: '/trees',
           headers: {
             id_token: idToken
           }
@@ -33,7 +33,7 @@ app.controller("SampleCtrl", function($firebaseAuth, $http) {
       });
     } else {
       console.log('Not logged in or not authorized.');
-      self.secretData = "Log in to get some secret data.";
+      self.secretData = "Log in to get your decision trees.";
     }
 
   });
