@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html ng-app="sampleApp">
-  <head>
-    <meta charset="utf-8">
-    <title>Decision Tree Maker</title>
-    <!-- AngularJS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>Decision Tree Maker</title>
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 
-    <!-- AngularFire -->
-    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+  <!-- AngularFire -->
+  <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 
-    <!-- Firebase Config -->
-    <script src="scripts/config.js"></script>
+  <!-- Firebase Config -->
+  <script src="scripts/config.js"></script>
 
-    <!-- Angular Application with Authentication -->
-    <script src="scripts/client.js"></script>
-    <link rel="stylesheet" href="/vendors/bootstrap.min.css">
-  </head>
-  <body ng-controller="SampleCtrl as sc">
-    <h1>Decision Tree Maker</h1>
-    <button ng-click="sc.logIn()">Log In</button>
-    <button ng-click="sc.logOut()">Log Out</button>
-    <div>
-      {{sc.secretData}}
-    </div>
-  </body>
+  <!-- Angular Application with Authentication -->
+  <script src="scripts/client.js"></script>
+  <link rel="stylesheet" href="/vendors/bootstrap.min.css">
+</head>
+<body ng-controller="SampleCtrl as sc">
+  <h1>Decision Tree Maker</h1>
+  <button ng-click="sc.logIn()">Log In</button>
+  <button ng-click="sc.logOut()">Log Out</button>
+
+  <div ng-if="sc.userIsLoggedIn">
+    <input type="text" ng-model="sc.newTree.treeName">
+    <button ng-click="sc.addTree(sc.newTree)">Add Decision Tree with this name</button>
+  </div>
+  <div>
+    {{sc.secretData}}
+  </div>
+</body>
 </html>

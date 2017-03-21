@@ -25,7 +25,7 @@ var tokenDecoder = function(req, res, next){
             res.sendStatus(500);
           } else {
               pg.connect(connectionString, function(err,client,done) {
-                if(userQueryResult.rowCount === 0) { //if user does not exist
+                if(userQueryResult.rowCount === 0) { //if user does not exist, add them to user list, keep id
                   client.query('INSERT INTO users (email) VALUES ($1) RETURNING id;', [userEmail], function(err, result){
                     done();
                     if(err) {
