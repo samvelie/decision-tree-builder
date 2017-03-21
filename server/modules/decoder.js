@@ -33,12 +33,12 @@ var tokenDecoder = function(req, res, next){
                       res.sendStatus(500);
                     } else {
                       console.log('userId added and authenticated:', result.rows[0].id);
-                      req.decodedToken.userId = userQueryResult.rows[0].id;
+                      req.userId = userQueryResult.rows[0].id;
                     }
                   });
                 } else {
                   console.log('userId authenticated:', userQueryResult.rows[0].id);
-                  req.decodedToken.userId = userQueryResult.rows[0].id;
+                  req.userId = userQueryResult.rows[0].id;
                 }
               });
             next();

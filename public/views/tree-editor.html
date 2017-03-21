@@ -1,0 +1,23 @@
+<h1>Tree Editor</h1>
+<table ng-if="tec.treeNodes.length > 0">
+ <thead>
+   <tr>
+     <th>
+       Question Node
+     </th>
+     <th>
+       Tree End? (T/F)
+     </th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr ng-repeat="node in tec.treeNodes">
+     <td>
+       {{node.content}}
+     </td>
+     <td>
+       {{node.tree_end}}
+     </td>
+   </tr>
+ </tbody>
+</table>

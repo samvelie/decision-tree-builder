@@ -5,7 +5,7 @@ var connectionString = require('../modules/database-config');
 
 //gets list of trees made by user
 router.get("/", function(req, res) {
-  var userId = req.decodedToken.userId;
+  var userId = req.userId;
   pg.connect(connectionString, function(err, client, done) {
       client.query('SELECT * FROM trees WHERE creator_id=$1;', [userId], function(err, getTreesResult) {
        done();
@@ -21,7 +21,7 @@ router.get("/", function(req, res) {
 
 //posts a tree connected to user
 router.post("/", function(req, res) {
-  var userId = req.decodedToken.userId;
+  var userId = req.userId;
   var treeName =req.body.treeName;
   pg.connect(connectionString, function(err, client, done) {
       client.query('INSERT INTO trees (tree_name, creator_id) VALUES ($1, $2);', [treeName, userId], function(err, result) {
@@ -38,7 +38,7 @@ router.post("/", function(req, res) {
 
 //gets list of nodes associated with tree id
 router.get("/:id", function(req, res) {
-  var userId = req.decodedToken.userId; //ensures nodes are only grabbed for trees made by this user
+  var userId = req.userId; //ensures nodes are only grabbed for trees made by this user
   var treeId = req.params.id;
   pg.connect(connectionString, function(err, client, done) {
     client.query('SELECT nodes.id, content, tree_end FROM nodes JOIN trees ON nodes.tree_id = trees.id WHERE trees.creator_id=$1 AND tree_id=$2;',
