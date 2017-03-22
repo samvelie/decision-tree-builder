@@ -1,0 +1,13 @@
+<h1>Tree Viewer</h1>
+
+<div>
+  Viewing tree with id: {{tvc.tree}}.
+</div>
+
+<div>
+  QUESTION: {{tvc.questionDisplay[0].content}}
+</div>
+
+<div>
+  OPTIONS: <span ng-repeat= "option in tvc.optionDisplay"><button ng-click="tvc.getNextQuestion(option.to_node_id)">{{option.response_text}}</button></span>
+</div>

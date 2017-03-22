@@ -34,14 +34,15 @@ var tokenDecoder = function(req, res, next){
                     } else {
                       console.log('userId added and authenticated:', result.rows[0].id);
                       req.userId = userQueryResult.rows[0].id;
+                      next();
                     }
                   });
                 } else {
                   console.log('userId authenticated:', userQueryResult.rows[0].id);
                   req.userId = userQueryResult.rows[0].id;
+                  next();
                 }
               });
-            next();
           }
         }); //end user select query
       });

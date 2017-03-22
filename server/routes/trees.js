@@ -19,7 +19,7 @@ router.get("/", function(req, res) {
   });//end pg.connect
 });//end router.get
 
-//posts a tree connected to user
+//creates a tree connected to user
 router.post("/", function(req, res) {
   var userId = req.userId;
   var treeName =req.body.treeName;
@@ -54,5 +54,64 @@ router.get("/:id", function(req, res) {
     });//end client.query for selecting nodes
   });//end pg.connect
 });//end router.get for node questions
+
+//starting question node getter for specific tree
+router.get("/starting/:id", function(req,res) {
+  var treeId = req.params.id;
+
+  pg.connect(connectionString, function(err, client, done) {
+    client.query('SELECT * FROM nodes INNER JOIN (SELECT MIN(id) AS minid FROM nodes WHERE tree_id=$1)mini ON nodes.id=mini.minid;',
+    [treeId],
+    function(err, startingQuestionResult) {
+      done();
+      if(err) {
+        console.log('error completing 1st node query on tree:', err);
+        res.sendStatus(500);
+      } else {
+        res.send(startingQuestionResult.rows);
+      }
+    });//end client.query for selecting first question
+  });//end pg.connect
+});//end router.get for starting question
+
+//getting options for specific node
+router.get("/:id/options/:nodeId", function(req,res) {
+  var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect
+  var nodeId = req.params.nodeId;
+
+  pg.connect(connectionString, function(err, client, done) {
+    client.query('SELECT * FROM options WHERE from_node_id = $1;',
+    [nodeId],
+    function(err, optionsResult) {
+      done();
+      if(err) {
+        console.log('error completing query for options on node:', err);
+        res.sendStatus(500);
+      } else {
+        res.send(optionsResult.rows);
+      }
+    });//end client.query for getting options
+  });//end pg.connect
+});//end router.get for options
+
+//getting specific question node
+router.get("/:id/:nodeId", function(req,res) {
+  var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect
+  var nodeId = req.params.nodeId;
+
+  pg.connect(connectionString, function(err, client, done) {
+    client.query('SELECT * FROM nodes WHERE nodes.id = $1;',
+    [nodeId],
+    function(err, nodeResult) {
+      done();
+      if(err) {
+        console.log('error completing query for node:', err);
+        res.sendStatus(500);
+      } else {
+        res.send(nodeResult.rows);
+      }
+    });//end client.query for getting question
+  });//end pg.connect
+});//end router.get for question
 
 module.exports = router;
