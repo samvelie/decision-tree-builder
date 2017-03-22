@@ -41,7 +41,7 @@ router.get("/:id", function(req, res) {
   var userId = req.userId; //ensures nodes are only grabbed for trees made by this user
   var treeId = req.params.id;
   pg.connect(connectionString, function(err, client, done) {
-    client.query('SELECT nodes.id, content, tree_end FROM nodes JOIN trees ON nodes.tree_id = trees.id WHERE trees.creator_id=$1 AND tree_id=$2;',
+    client.query('SELECT nodes.id, nodes.tree_id, content, tree_end FROM nodes JOIN trees ON nodes.tree_id = trees.id WHERE trees.creator_id=$1 AND tree_id=$2;',
     [userId, treeId],
     function(err, getNodesResult) {
       done();

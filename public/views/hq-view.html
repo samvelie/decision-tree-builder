@@ -3,10 +3,10 @@
 <button ng-click="hc.logOut()">Log Out</button>
 
 <div ng-if="hc.userIsLoggedIn">
+  <h2>My Trees</h2>
   <input type="text" ng-model="hc.newTree.treeName">
   <button ng-click="hc.addTree(hc.newTree)">Add Decision Tree with this name</button>
 
-  <h2>My Trees</h2>
   <div ng-repeat="tree in hc.treeArray track by $index">
     <h3>{{tree.tree_name}}</h3>
     <a ng-href="#!edit/{{tree.id}}">Edit This Tree</a>

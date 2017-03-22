@@ -6,20 +6,21 @@
        Question Node
      </th>
      <th>
-       Tree End? (T/F)
-     </th>
-     <th>
        Edit
      </th>
    </tr>
  </thead>
  <tbody>
+   <tr>
+     <td><input placeholder="Add New Question Node"></td>
+     <td><button type="button" name="button">Add</button></td>
+   </tr>
    <tr ng-repeat="node in tec.treeNodes">
      <td>
        {{node.content}}
      </td>
-     <td>
-       {{node.tree_end}}
+     <td ng-class="{'tree-end': node.tree_end}">
+       <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">Edit</a>
      </td>
    </tr>
  </tbody>

@@ -19,6 +19,11 @@ app.config(['$routeProvider', function($routeProvider) {
           controller: 'TreeViewController',
           controllerAs: 'tvc'
       })
+      .when ('/edit/:treeid/:nodeId', {
+          templateUrl: '/views/node-editor.html',
+          controller: 'NodeEditController',
+          controllerAs: 'nec'
+      })
       .otherwise ( {
           redirectTo: '/home'
       });
