@@ -4,8 +4,6 @@ app.controller('TreeEditController', function($firebaseAuth, $http, $routeParams
 
   var treeId = $routeParams.id;
 
-
-
   var firebaseUser = auth.$getAuth();
 
   if(firebaseUser) {

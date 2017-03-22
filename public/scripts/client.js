@@ -4,7 +4,12 @@ app.config(['$routeProvider', function($routeProvider) {
 
   //routes
   $routeProvider
-      .when ('/home', {
+      .when ('/', {
+        templateUrl:'/views/login-view.html',
+        controller: 'LoginController',
+        controllerAs: 'lc'
+      })
+      .when ('/hq', {
         templateUrl: '/views/hq-view.html',
         controller: 'HomeController',
         controllerAs: 'hc'
