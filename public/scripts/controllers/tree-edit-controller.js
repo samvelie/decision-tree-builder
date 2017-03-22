@@ -1,9 +1,9 @@
-app.controller('TreeEditController', function($firebaseAuth, $http, $route) {
+app.controller('TreeEditController', function($firebaseAuth, $http, $routeParams) {
   var auth = $firebaseAuth();
   var self = this;
 
   var treeId = $routeParams.id;
-  console.log(treeId);
+
 
 
   var firebaseUser = auth.$getAuth();
@@ -12,7 +12,7 @@ app.controller('TreeEditController', function($firebaseAuth, $http, $route) {
     firebaseUser.getToken().then(function(idToken){
       $http({
         method: 'GET',
-        url: '/edit' + treeId,
+        url: '/trees/' + treeId,
         headers: {
           id_token: idToken
         }

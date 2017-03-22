@@ -7,8 +7,8 @@
   <button ng-click="hc.addTree(hc.newTree)">Add Decision Tree with this name</button>
 
   <h2>My Trees</h2>
-  <div ng-repeat="tree in hc.secretData">
-    <p>{{tree.tree_name}}</p>
-    <a ng-href="edit/{{tree.id}}">Edit This Tree</a>
+  <div ng-repeat="tree in hc.treeArray track by $index">
+    <h3>{{tree.tree_name}}</h3>
+    <a ng-href="#!edit/{{tree.id}}">Edit This Tree</a>
   </div>
 </div>

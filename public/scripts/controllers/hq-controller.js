@@ -33,7 +33,8 @@ app.controller('HomeController', function($firebaseAuth, $http) {
             id_token: idToken
           }
         }).then(function(response){
-          self.secretData = response.data;
+          self.treeArray = response.data;
+          console.log('back from server with:', self.treeArray);
         });
       });
     } else {
