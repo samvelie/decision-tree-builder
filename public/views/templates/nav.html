@@ -1,4 +1,13 @@
-<nav class="topnav text-right" ng-controller="LoginController as lc">
-  <button ng-click="lc.logIn()" class="button login">Log In</button>
-  <button ng-click="lc.logOut()" class="button login">Log Out</button>
+<nav class="navbar" ng-controller="LoginController as lc">
+<div class="container-fluid">
+  <div class="navbar-header">
+    <a href="#!hq"><img src="../../css/fonts/glyphicon-home.png" alt="Home"></a>
+  </div>
+  <div class="login-buttons" style="display: inline-block;">
+    <ul class= "nav navbar-nav ">
+      <li><button ng-click="lc.logIn()" class="button login">Log In</button></li>
+      <li><button ng-click="lc.logOut()" class="button login">Log Out</button></li>
+    </ul>
+</div>
+</div>
 </nav>

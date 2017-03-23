@@ -13,8 +13,13 @@
   background: transparent;
 }
 
+.login-buttons {
+  float: right;
+}
+
 .login {
   color: blue;
   background: transparent;
   border: 0;
+  margin-left: 10px;
 }
