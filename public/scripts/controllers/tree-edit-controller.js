@@ -1,28 +1,23 @@
-app.controller('TreeEditController', function($firebaseAuth, $http, $routeParams) {
+app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '$routeParams', function(TreeFactory, $firebaseAuth, $http, $routeParams) {
   var auth = $firebaseAuth();
   var self = this;
 
-  var treeId = $routeParams.id;
+  self.treeData = TreeFactory.treeWithNodes;
 
-  var firebaseUser = auth.$getAuth();
+  console.log("$routeParams.id:", $routeParams.id);
 
-  if(firebaseUser) {
-    firebaseUser.getToken().then(function(idToken){
-      $http({
-        method: 'GET',
-        url: '/trees/' + treeId,
-        headers: {
-          id_token: idToken
-        }
-      }).then(function(response){
-        self.treeNodes = response.data;
-      });
-    });
+  if(typeof $routeParams.id == 'undefined') {
+    self.newTree = 'Enter New Tree';
   } else {
-    console.log('Not logged in or not authorized.');
+    //run function to get tree name and nodes
+    auth.$onAuthStateChanged(getTreeEditInfo);
   }
 
+function getTreeEditInfo() {
+  var treeId = $routeParams.id;
+  TreeFactory.getTreeWithNodes(treeId);
+}
 
 
 
-});
+}]);

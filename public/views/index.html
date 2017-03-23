@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Decision Tree Maker</title>
+  <link rel="stylesheet" href="/vendors/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
   <!-- AngularJS -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
   <script src="vendors/angular-route.min.js" charset="utf-8"></script>
@@ -20,10 +22,9 @@
   <script src="scripts/controllers/tree-edit-controller.js" charset="utf-8"></script>
   <script src="scripts/controllers/tree-view-controller.js" charset="utf-8"></script>
   <script src="scripts/controllers/node-edit-controller.js" charset="utf-8"></script>
-  <link rel="stylesheet" href="/vendors/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <nav ng-include="'views/templates/nav.html'"></nav>
   <main ng-view></main>
 </body>
 </html>

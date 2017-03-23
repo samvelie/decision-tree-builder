@@ -10,9 +10,9 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
 
   //get node
   //get options
-  auth.$onAuthStateChanged(getInfo);
+  auth.$onAuthStateChanged(getNodeEditInfo);
 
-  function getInfo() {
+  function getNodeEditInfo() {
     TreeFactory.getNodeWithResponses(thisTreeId, thisNodeId);
   }
 
@@ -20,6 +20,9 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
 
   //edit node question (put)
   //edit options (put)
-  //add options
+  //add options (post)
+  //add node (post)
+      //return new question node id
+			//edit new option with returned question node id -> to_id
 
 }]);

@@ -19,6 +19,23 @@ router.get("/", function(req, res) {
   });//end pg.connect
 });//end router.get
 
+//gets specific tree
+router.get("/tree/:treeId", function(req, res) {
+  var userId = req.userId;
+  var treeId = req.params.treeId;
+  pg.connect(connectionString, function(err, client, done) {
+      client.query('SELECT * FROM trees WHERE creator_id=$1 AND id=$2;', [userId, treeId], function(err, result) {
+       done();
+       if(err) {
+         console.log('error completing specific tree query:', err);
+         res.sendStatus(500);
+       } else {
+         res.send(result.rows);
+       }
+      });//end query for tree list
+  });//end pg.connect
+});//end router.get
+
 //creates a tree connected to user
 router.post("/", function(req, res) {
   var userId = req.userId;
@@ -37,9 +54,9 @@ router.post("/", function(req, res) {
 });//end router.post
 
 //gets list of nodes associated with tree id
-router.get("/:id", function(req, res) {
+router.get("/nodes/:treeId", function(req, res) {
   var userId = req.userId; //ensures nodes are only grabbed for trees made by this user
-  var treeId = req.params.id;
+  var treeId = req.params.treeId;
   pg.connect(connectionString, function(err, client, done) {
     client.query('SELECT nodes.id, nodes.tree_id, content, tree_end FROM nodes JOIN trees ON nodes.tree_id = trees.id WHERE trees.creator_id=$1 AND tree_id=$2;',
     [userId, treeId],

@@ -14,7 +14,7 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'HomeController',
         controllerAs: 'hc'
       })
-      .when ('/edit/:id', {
+      .when ('/edit/:id?', {
           templateUrl: '/views/tree-editor.html',
           controller: 'TreeEditController',
           controllerAs: 'tec'

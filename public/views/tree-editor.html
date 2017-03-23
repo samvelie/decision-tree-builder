@@ -1,5 +1,13 @@
 <h1>Tree Editor</h1>
-<table ng-if="tec.treeNodes.length > 0">
+<div ng-if="tec.treeData == null">
+  <input ng-model="tec.newTree"> <button ng-click="tec.saveTreeName()">Save</button>
+</div>
+<div ng-if="tec.treeData !== null">
+  <input ng-model="tec.treeData.treeInfo[0].tree_name">
+  <button></button>
+</div>
+{{tec.treeData}}
+<table ng-if="tec.treeData.nodeInfo.length > 0">
  <thead>
    <tr>
      <th>
@@ -15,7 +23,7 @@
      <td><input placeholder="Add New Question Node"></td>
      <td><button type="button" name="button">Add</button></td>
    </tr>
-   <tr ng-repeat="node in tec.treeNodes">
+   <tr ng-repeat="node in tec.treeData.nodeInfo">
      <td>
        {{node.content}}
      </td>

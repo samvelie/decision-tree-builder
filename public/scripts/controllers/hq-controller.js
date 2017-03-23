@@ -28,10 +28,4 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
     // }
   };
 
-  // This code runs when the user logs out
-  self.logOut = function() {
-    auth.$signOut().then(function(){
-      console.log('Logging the user out!');
-    });
-  };
 }]);

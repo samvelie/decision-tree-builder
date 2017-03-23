@@ -1,7 +1,11 @@
 app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($firebaseAuth, $http, $routeParams) {
   var auth = $firebaseAuth();
   var userTrees = { list: [] };
-  var nodeWithResponses = {}; //will contain 1 node's question and responses
+  var treeWithNodes = { //will contain 1 tree with its question nodes
+    treeInfo: [],
+    nodeInfo: []
+    };
+  var nodeWithResponses = {}; //will contain 1 question node with response options
 
   auth.$onAuthStateChanged(function(firebaseUser) {
   // if the user is logged in, firebaseUser will be some object (truthy),
@@ -14,6 +18,41 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   });
 
   auth.$onAuthStateChanged(getUserTrees);
+
+  function getTreeWithNodes(treeId) {
+    console.log('getTreeWithNodes running with', treeId);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'GET',
+          url: '/trees/tree/' + treeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('back with tree', response.data);
+            treeWithNodes.treeInfo = response.data;
+            getNodesForTree(treeId, idToken);
+        });
+      });
+    } else {
+      console.log('Not logged in or not authorized.');
+    }
+  }
+
+  function getNodesForTree(treeId, idToken) {
+    $http({
+      method: 'GET',
+      url: '/trees/nodes/' + treeId,
+      headers: {
+        id_token: idToken
+      }
+    }).then(function(response) {
+        treeWithNodes.nodeInfo = response.data;
+        console.log('treeWithNodes', treeWithNodes);
+    });
+  }
 
   function getNodeWithResponses(treeId, nodeId) {
     var firebaseUser = auth.$getAuth();
@@ -49,7 +88,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   function getUserTrees() {
-    console.log('getting trees');
       // firebaseUser will be null if not logged in
       var firebaseUser = auth.$getAuth();
       if(firebaseUser) {
@@ -63,7 +101,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             }
           }).then(function(response){
             userTrees.list = response.data;
-            console.log('back from server with:', userTrees);
 
           });
         });
@@ -76,6 +113,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   return {
     getUserTrees: getUserTrees,
     userTrees: userTrees,
+    treeWithNodes: treeWithNodes,
+    getTreeWithNodes: getTreeWithNodes,
     nodeWithResponses: nodeWithResponses,
     getNodeWithResponses: getNodeWithResponses
   };
