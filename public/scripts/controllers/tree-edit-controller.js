@@ -2,6 +2,8 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
   var auth = $firebaseAuth();
   var self = this;
 
+  var treeObject = {};
+
   self.treeData = TreeFactory.treeWithNodes;
 
   console.log("$routeParams.id:", $routeParams.id);
@@ -18,6 +20,17 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     TreeFactory.getTreeWithNodes(treeId);
   }
 
+  self.saveTreeName = function(idOrNew, name) {
+      console.log(idOrNew);
+      if (idOrNew==='new') {
+        console.log('saving new tree', self.newTree);
+        TreeFactory.addTree(self.newTree);
+      } else {
+        treeObject.treeName = name;
+        console.log('updating tree with id', idOrNew);
+        TreeFactory.editUserTree(idOrNew, treeObject);
+      }
+  }
 
 
 }]);

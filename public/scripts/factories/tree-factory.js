@@ -30,7 +30,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             id_token: idToken
           }
         }).then(function(response){
-            console.log('back with tree', response.data);
             treeWithNodes.treeInfo = response.data;
             getNodesForTree(treeId, idToken);
         });
@@ -107,6 +106,28 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
+  //edit a user tree
+  function editUserTree(treeId, treeObject) {
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'PUT',
+          url: '/trees/' + treeId,
+          data: treeObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          console.log(response.data);
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
+
+
   //get trees for "My Trees"
   function getUserTrees() {
       var firebaseUser = auth.$getAuth();
@@ -136,6 +157,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     getTreeWithNodes: getTreeWithNodes,
     nodeWithResponses: nodeWithResponses,
     getNodeWithResponses: getNodeWithResponses,
-    addTree: addTree
+    addTree: addTree,
+    editUserTree: editUserTree
   };
 }]);

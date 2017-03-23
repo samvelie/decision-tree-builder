@@ -53,6 +53,23 @@ router.post("/", function(req, res) {
   });//end pg.connect
 });//end router.post
 
+//edits a tree name
+router.put("/:id", function(req, res) {
+  var treeId = req.params.id;
+  var treeName = req.body.treeName;
+  pg.connect(connectionString, function(err, client, done) {
+       client.query('UPDATE trees SET tree_name=$1 WHERE id=$2;', [treeName, treeId], function(err, result) {
+       done();
+       if(err) {
+         console.log('error updating tree in db; query error:', err);
+         res.sendStatus(500);
+       } else {
+         res.sendStatus(200);
+       }
+     });//end query for adding tree
+  });//end pg.connect
+});
+
 //gets list of nodes associated with tree id
 router.get("/nodes/:treeId", function(req, res) {
   var userId = req.userId; //ensures nodes are only grabbed for trees made by this user
