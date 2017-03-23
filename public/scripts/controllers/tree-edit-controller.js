@@ -13,10 +13,10 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     auth.$onAuthStateChanged(getTreeEditInfo);
   }
 
-function getTreeEditInfo() {
-  var treeId = $routeParams.id;
-  TreeFactory.getTreeWithNodes(treeId);
-}
+  function getTreeEditInfo() {
+    var treeId = $routeParams.id;
+    TreeFactory.getTreeWithNodes(treeId);
+  }
 
 
 

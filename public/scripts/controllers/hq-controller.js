@@ -3,29 +3,19 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
   var self = this;
 
   self.treeArray = TreeFactory.userTrees;
+  self.newTree = {};
+
+  auth.$onAuthStateChanged(getTrees);
 
   // need to be able to add new trees. Eventually want this process to bring user to different view
   self.addTree = function(treeObject) {
-    //replace with TreeFactory call
-
-    // var firebaseUser = auth.$getAuth();
-    //
-    // if(firebaseUser) {
-    //   firebaseUser.getToken().then(function(idToken){
-    //     $http({
-    //       method: 'POST',
-    //       url: '/trees',
-    //       data: treeObject,
-    //       headers: {
-    //         id_token: idToken
-    //       }
-    //     }).then(function(response){
-    //       console.log(response.data);
-    //     });
-    //   });
-    // } else {
-    //   console.log('Can not post to database when not logged in.');
-    // }
+    TreeFactory.addTree(treeObject);
+    getTrees();
   };
+
+  function getTrees(){
+    TreeFactory.getUserTrees();
+  }
+
 
 }]);
