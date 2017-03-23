@@ -1,4 +1,4 @@
-app.controller('LoginController', function($firebaseAuth, $http, $routeParams) {
+app.controller('LoginController', function($firebaseAuth, $http, $routeParams, $location) {
   var auth = $firebaseAuth();
   var self = this;
 
@@ -7,7 +7,7 @@ app.controller('LoginController', function($firebaseAuth, $http, $routeParams) {
     console.log('login clicked');
   auth.$signInWithPopup("google").then(function(firebaseUser) {
     console.log("Firebase Authenticated as: ", firebaseUser.user.displayName);
-    window.location.replace('#!/hq');
+    $location.url('/hq');
   }).catch(function(error) {
     console.log("Authentication failed: ", error);
   });
