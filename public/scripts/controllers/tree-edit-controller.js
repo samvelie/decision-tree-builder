@@ -9,7 +9,7 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
   console.log("$routeParams.id:", $routeParams.id);
 
   if(typeof $routeParams.id == 'undefined') {
-    self.newTree = 'Enter New Tree';
+    self.newTree = {treeName:''};
   } else {
     //run function to get tree name and nodes
     auth.$onAuthStateChanged(getTreeEditInfo);
@@ -20,11 +20,11 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     TreeFactory.getTreeWithNodes(treeId);
   }
 
-  self.saveTreeName = function(idOrNew, name) {
-      console.log(idOrNew);
-      if (idOrNew==='new') {
-        console.log('saving new tree', self.newTree);
-        TreeFactory.addTree(self.newTree);
+  self.saveTreeName = function(idOrNew, nameOrObject) {
+      console.log(idOrNew, nameOrObject);
+      if (idOrNew ==='new') {
+        console.log('saving new tree', nameOrObject);
+        TreeFactory.addTree(nameOrObject);
       } else {
         treeObject.treeName = name;
         console.log('updating tree with id', idOrNew);

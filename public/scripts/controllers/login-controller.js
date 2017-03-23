@@ -30,6 +30,7 @@ app.controller('LoginController', function($firebaseAuth, $location) {
     auth.$signOut().then(function(){
       console.log('Logging the user out!');
       loggedIn = false;
+      $location.url('/');
     });
   };
 

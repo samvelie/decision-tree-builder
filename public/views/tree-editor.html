@@ -1,10 +1,11 @@
 <h1>Tree Editor</h1>
-<div ng-if="tec.treeData == null">
-  <input type= "text" ng-model="tec.newTree.name" class="form-control input-lg"> <button ng-click="tec.saveTreeName(new)">Save</button>
+<div ng-if="tec.treeData.treeInfo.length == 0">
+  <input type= "text" ng-model="tec.newTree.treeName" class="form-control input-lg" placeholder="Enter New Tree Name">
+  <button ng-click="tec.saveTreeName('new', tec.newTree)">Save</button>
 </div>
-<div ng-if="tec.treeData !== null">
+<div ng-if="tec.treeData.treeInfo.length != 0">
   <input type= "text" class="form-control input-lg" ng-model="tec.treeData.treeInfo[0].tree_name">
-  <button class="btn btn-info" ng-click="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">Save Name</button>
+  <button class="btn btn-info" ng-click="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">Update Name</button>
 </div>
 <table class= "table">
  <thead>
