@@ -1,3 +1,20 @@
 .tree-end {
   color: green;
 }
+
+.intro {
+  margin: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: transparent;
+}
+
+.login {
+  color: blue;
+  background: transparent;
+  border: 0;
+}

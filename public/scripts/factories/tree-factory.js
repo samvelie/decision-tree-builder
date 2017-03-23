@@ -87,6 +87,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     });
   }
 
+  //get trees for "My Trees"
   function getUserTrees() {
       // firebaseUser will be null if not logged in
       var firebaseUser = auth.$getAuth();

@@ -30,6 +30,6 @@ app.config(['$routeProvider', function($routeProvider) {
           controllerAs: 'nec'
       })
       .otherwise ( {
-          redirectTo: '/home'
+          redirectTo: 'hq'
       });
 }]);
