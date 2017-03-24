@@ -4,10 +4,12 @@
   Viewing tree with id: {{tvc.tree}}.
 </div>
 
-<div>
-  QUESTION: {{tvc.questionDisplay[0].content}}
+<div class="container text-center">
+  <h2 ng-class= "{'tree-end': tvc.questionDisplay[0].tree_end}">{{tvc.questionDisplay[0].content}}</h2>
 </div>
 
-<div>
-  OPTIONS: <span ng-repeat= "option in tvc.optionDisplay"><button ng-click="tvc.getNextQuestion(option.to_node_id)">{{option.response_text}}</button></span>
+<div class="container text-center" ng-if="!tvc.questionDisplay[0].tree_end">
+  <span ng-repeat= "option in tvc.optionDisplay">
+    <button ng-click="tvc.getNextQuestion(option.to_node_id)">{{option.response_text}}</button>
+  </span>
 </div>

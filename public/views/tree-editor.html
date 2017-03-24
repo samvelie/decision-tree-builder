@@ -20,16 +20,16 @@
  </thead>
  <tbody>
    <tr ng-repeat="node in tec.treeData.nodeInfo">
-     <td>
+     <td ng-class="{'tree-end': {{node.tree_end}}}">
        {{node.content}}
      </td>
-     <td ng-class="{'tree-end': node.tree_end}">
+     <td>
        <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">Edit</a>
      </td>
    </tr>
    <tr>
-     <td><input type="text" placeholder="Add New Question Node" class="form-control input-sm"></td>
-     <td><button type="button" name="button" class= "button btn-primary">Add</button></td>
+     <td><input type="text" placeholder="Add New Question Node" class="form-control input-sm" ng-model="tec.newNode.content"></td>
+     <td><button type="button" name="button" class= "button btn-primary" ng-click="tec.addNodeToTree(tec.newNode)">Add</button></td>
    </tr>
  </tbody>
 </table>

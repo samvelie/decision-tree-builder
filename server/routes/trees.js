@@ -41,13 +41,13 @@ router.post("/", function(req, res) {
   var userId = req.userId;
   var treeName =req.body.treeName;
   pg.connect(connectionString, function(err, client, done) {
-      client.query('INSERT INTO trees (tree_name, creator_id) VALUES ($1, $2);', [treeName, userId], function(err, result) {
+      client.query('INSERT INTO trees (tree_name, creator_id) VALUES ($1, $2) RETURNING id;', [treeName, userId], function(err, result) {
        done();
        if(err) {
          console.log('error adding tree to db; query error:', err);
          res.sendStatus(500);
        } else {
-         res.sendStatus(200);
+         res.send(result.rows);
        }
      });//end query for adding tree
   });//end pg.connect
@@ -88,6 +88,25 @@ router.get("/nodes/:treeId", function(req, res) {
     });//end client.query for selecting nodes
   });//end pg.connect
 });//end router.get for node questions
+
+//adds node to tree
+router.post("/nodes/:treeId", function(req, res) {
+  var treeId = req.params.treeId;
+  var nodeContent = req.body.content;
+  pg.connect(connectionString, function(err, client, done) {
+    client.query('INSERT INTO nodes (content, tree_id) VALUES ($1, $2) RETURNING id;',
+    [nodeContent, treeId],
+    function(err, result) {
+      done();
+      if(err) {
+        console.log('error with node add query:', err);
+        res.sendStatus(500);
+      } else {
+        res.send(result.rows);
+      }
+    });//end client.query for adding node
+  });//end pg.connect
+});//end router.post for nodes
 
 //starting question node getter for specific tree
 router.get("/starting/:id", function(req,res) {

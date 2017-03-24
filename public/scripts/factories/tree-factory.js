@@ -30,6 +30,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             id_token: idToken
           }
         }).then(function(response){
+            console.log('get back with', response.data);
             treeWithNodes.treeInfo = response.data;
             getNodesForTree(treeId, idToken);
         });
@@ -99,6 +100,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
           }
         }).then(function(response){
           console.log(response.data);
+          treeWithNodes.treeInfo= response.data
         });
       });
     } else {
@@ -140,8 +142,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
               id_token: idToken
             }
           }).then(function(response){
-            userTrees.list = response.data;
-
+              userTrees.list = response.data;
           });
         });
       } else {
@@ -149,6 +150,25 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
       }
   }
 
+  function addNode(nodeObject, treeId) {
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'POST',
+          url: '/trees/nodes/' + treeId,
+          data: nodeObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('nodeId created', response.data);
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
 
   return {
     getUserTrees: getUserTrees,
@@ -158,6 +178,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     nodeWithResponses: nodeWithResponses,
     getNodeWithResponses: getNodeWithResponses,
     addTree: addTree,
-    editUserTree: editUserTree
+    editUserTree: editUserTree,
+    addNode: addNode
   };
 }]);

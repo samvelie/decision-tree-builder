@@ -1,4 +1,3 @@
-//need to conceive how to call database for page by page walkthrough
 app.controller('TreeViewController', function($firebaseAuth, $http, $routeParams) {
   var auth = $firebaseAuth();
   var self = this;
@@ -32,6 +31,7 @@ app.controller('TreeViewController', function($firebaseAuth, $http, $routeParams
 
 
   function getOptions(treeId, thisNodeId, idToken) {
+    console.log('getOptions running in Tree Viewer');
     $http({
       method: 'GET',
       url: '/trees/' + treeId + '/options/' + thisNodeId,
