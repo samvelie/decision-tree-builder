@@ -12,8 +12,10 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
   console.log("$routeParams.id:", $routeParams.id);
 
   if(typeof treeId == 'undefined') {
+    console.log('treeID is UNDEFINED');
     self.newTree = {treeName:''};
   } else {
+    console.log('treeID seems OK:', treeId);
       getTreeEditInfo(treeId);
 
   }
@@ -29,16 +31,27 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
         TreeFactory.addTree(nameOrObject);
 
       } else {
-        treeObject.treeName = name;
         console.log('updating tree with id', idOrNew);
+        console.log('name', nameOrObject);
+        treeObject.treeName = nameOrObject;
+        console.log('sending treeObject', treeObject);
+
         TreeFactory.editUserTree(idOrNew, treeObject);
       }
-  }
+  };
 
   self.addNodeToTree = function(nodeObject) {
+    console.log('treeditor addNodeToTree using:', nodeObject);
     treeId =  self.treeData.treeInfo[0].id;
-    TreeFactory.addNode(nodeObject, treeId);
-    getTreeEditInfo(treeId);
+    TreeFactory.addNode(nodeObject, treeId).then( function() {
+      self.newNode.words = '';
+    }
+    );
+  };
+
+  self.deleteNode = function(nodeId) {
+    console.log('treeditor deleteNode for id', nodeId);
+    TreeFactory.removeNode(nodeId);
   }
 
 

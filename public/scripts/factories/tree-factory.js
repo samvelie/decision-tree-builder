@@ -8,10 +8,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   var nodeWithResponses = {}; //will contain 1 question node with response options
 
   auth.$onAuthStateChanged(function(firebaseUser) {
-  // if the user is logged in, firebaseUser will be some object (truthy),
-  // if the user is not logged in, firebaseUser is null (falsey)
-  // the first ! flips it and makes it just true or false
-  // self.userIsLoggedIn = !!firebaseUser;
 
   // Check directly if firebaseUser is null
   userTrees.loggedIn = firebaseUser !== null;
@@ -30,7 +26,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             id_token: idToken
           }
         }).then(function(response){
-            console.log('get back with', response.data);
+            console.log('getTreeWithNodes back with', response.data);
             treeWithNodes.treeInfo = response.data;
             getNodesForTree(treeId, idToken);
         });
@@ -41,6 +37,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   function getNodesForTree(treeId, idToken) {
+    console.log('getNodesForTree running');
     $http({
       method: 'GET',
       url: '/trees/nodes/' + treeId,
@@ -49,11 +46,12 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
       }
     }).then(function(response) {
         treeWithNodes.nodeInfo = response.data;
-        console.log('treeWithNodes', treeWithNodes);
+        console.log('getNodesForTree back with', treeWithNodes);
     });
   }
 
   function getNodeWithResponses(treeId, nodeId) {
+    console.log('getNodeWithResponses running');
     var firebaseUser = auth.$getAuth();
     if(firebaseUser) {
       firebaseUser.getToken().then(function(idToken){
@@ -74,6 +72,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   function getResponsesForNode(treeId, thisNodeId, idToken) {
+    console.log('getResponsesForNode running');
     $http({
       method: 'GET',
       url: '/trees/' + treeId + '/options/' + thisNodeId,
@@ -88,6 +87,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
 
   //add a user tree
   function addTree(treeObject) {
+    console.log('addTree running with', treeObject);
     var firebaseUser = auth.$getAuth();
     if(firebaseUser) {
       firebaseUser.getToken().then(function(idToken){
@@ -99,8 +99,10 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             id_token: idToken
           }
         }).then(function(response){
-          console.log(response.data);
-          treeWithNodes.treeInfo= response.data
+          console.log('Factory tree added: ', response.data);
+          treeWithNodes.treeInfo= response.data;
+          // now update our trees array to share with the controller(s)
+          getUserTrees();
         });
       });
     } else {
@@ -108,8 +110,29 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
+  //remove a user tree
+  function removeTree(treeId) {
+    console.log('removeTree running to delete', treeId);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'DELETE',
+          url: '/trees/tree/' + treeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('tree deleted', response);
+            getUserTrees();
+        });
+      });
+    }
+  }
+
   //edit a user tree
   function editUserTree(treeId, treeObject) {
+    console.log('editUserTree running with', treeObject);
     var firebaseUser = auth.$getAuth();
     if(firebaseUser) {
       firebaseUser.getToken().then(function(idToken){
@@ -122,6 +145,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
           }
         }).then(function(response){
           console.log(response.data);
+          //now make sure we have current info on DOM
+          getTreeWithNodes(treeId);
         });
       });
     } else {
@@ -132,6 +157,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
 
   //get trees for "My Trees"
   function getUserTrees() {
+    console.log('getUserTrees running');
       var firebaseUser = auth.$getAuth();
       if(firebaseUser) {
         firebaseUser.getToken().then(function(idToken){
@@ -142,6 +168,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
               id_token: idToken
             }
           }).then(function(response){
+              console.log('factory got trees: ', response.data);
               userTrees.list = response.data;
           });
         });
@@ -150,7 +177,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
       }
   }
 
+  //add a node to tree
   function addNode(nodeObject, treeId) {
+    console.log('addNode running with ' + nodeObject.words + ' on treeId: ' + treeId);
     var firebaseUser = auth.$getAuth();
     if(firebaseUser) {
       firebaseUser.getToken().then(function(idToken){
@@ -162,11 +191,33 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             id_token: idToken
           }
         }).then(function(response){
-            console.log('nodeId created', response.data);
+            console.log('node created', response.data);
+            getTreeWithNodes(treeId);
         });
       });
     } else {
       console.log('Can not post to database when not logged in.');
+    }
+  }
+
+  //delete a node
+  function removeNode(nodeId) {
+    console.log('removeNode running to delete ' + nodeId);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'DELETE',
+          url: '/trees/nodes/' + nodeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('node deleted from tree', response.data[0].tree_id);
+            treeId = response.data[0].tree_id;
+            getTreeWithNodes(treeId);
+        });
+      });
     }
   }
 
@@ -179,6 +230,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     getNodeWithResponses: getNodeWithResponses,
     addTree: addTree,
     editUserTree: editUserTree,
-    addNode: addNode
+    addNode: addNode,
+    removeNode: removeNode
   };
 }]);

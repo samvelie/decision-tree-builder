@@ -1,6 +1,8 @@
 var admin = require("firebase-admin");
 var pg = require('pg');
-var connectionString = require('../modules/database-config');
+var config = require('../modules/database-config');
+
+var pool = new pg.Pool(config);
 
 admin.initializeApp({
   credential: admin.credential.cert("./server/firebase-service-account.json"),
@@ -16,7 +18,7 @@ var tokenDecoder = function(req, res, next){
       // Adding the decodedToken to the request so that downstream processes can use it
       req.decodedToken = decodedToken;
       //run query for user id, if successful do next
-      pg.connect(connectionString, function(err, client, done){ //attaching userID to every auth request
+      pool.connect(function(err, client, done){ //attaching userID to every auth request
         var userEmail = req.decodedToken.email;
         client.query('SELECT id FROM users WHERE email=$1;', [userEmail], function(err, userQueryResult){
           done();
@@ -24,7 +26,7 @@ var tokenDecoder = function(req, res, next){
             console.log('error connecting to db on user query:', err);
             res.sendStatus(500);
           } else {
-              pg.connect(connectionString, function(err,client,done) {
+              pool.connect(function(err,client,done) {
                 if(userQueryResult.rowCount === 0) { //if user does not exist, add them to user list, keep id
                   client.query('INSERT INTO users (email) VALUES ($1) RETURNING id;', [userEmail], function(err, result){
                     done();

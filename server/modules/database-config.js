@@ -1,1 +1,7 @@
-module.exports = 'postgres://localhost:5432/decisions';
+module.exports = {
+  database: 'decisions',
+  host: 'localhost',
+  port: 5432,
+  max: 100,
+  idleTimeoutMillis: 1500
+};

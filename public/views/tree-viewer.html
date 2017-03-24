@@ -10,6 +10,6 @@
 
 <div class="container text-center" ng-if="!tvc.questionDisplay[0].tree_end">
   <span ng-repeat= "option in tvc.optionDisplay">
-    <button ng-click="tvc.getNextQuestion(option.to_node_id)">{{option.response_text}}</button>
+    <button class="btn" ng-click="tvc.getNextQuestion(option.to_node_id)">{{option.response_text}}</button>
   </span>
 </div>

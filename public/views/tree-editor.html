@@ -1,21 +1,19 @@
 <h1>Tree Editor</h1>
 <div ng-if="tec.treeData.treeInfo.length == 0">
   <input type= "text" ng-model="tec.newTree.treeName" class="form-control input-lg" placeholder="Enter New Tree Name">
-  <button ng-click="tec.saveTreeName('new', tec.newTree)">Save</button>
+  <button class="btn btn-primary" ng-click="tec.saveTreeName('new', tec.newTree)">Save</button>
 </div>
 <div ng-if="tec.treeData.treeInfo.length != 0">
   <input type= "text" class="form-control input-lg" ng-model="tec.treeData.treeInfo[0].tree_name">
+  {{tec.treeData.treeInfo[0].tree_name}}
   <button class="btn btn-info" ng-click="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">Update Name</button>
 </div>
 <table class= "table">
  <thead>
    <tr>
-     <th>
-       Question Node
-     </th>
-     <th>
-       Edit
-     </th>
+     <th>Question Node</th>
+     <th>Edit</th>
+     <th>Delete</th>
    </tr>
  </thead>
  <tbody>
@@ -26,10 +24,18 @@
      <td>
        <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">Edit</a>
      </td>
+     <td>
+       <button type="button" name="button" class= "btn btn-danger" ng-click="tec.deleteNode(node.id)">X</button>
+     </td>
    </tr>
    <tr>
-     <td><input type="text" placeholder="Add New Question Node" class="form-control input-sm" ng-model="tec.newNode.content"></td>
-     <td><button type="button" name="button" class= "button btn-primary" ng-click="tec.addNodeToTree(tec.newNode)">Add</button></td>
+     <td>
+       <input type="text" placeholder="Add New Question Node" class="form-control input-sm" ng-model="tec.newNode.words">{{tec.newNode.content}}
+     </td>
+
+     <td>
+       <button type="button" name="button" class= "btn btn-primary" ng-click="tec.addNodeToTree(tec.newNode)">Add</button>
+     </td>
    </tr>
  </tbody>
 </table>
