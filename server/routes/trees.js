@@ -8,7 +8,7 @@ var pool = new pg.Pool(config);
 //-------------TREE/TREE NAMES CRUD-------------//
 
 //gets list of trees made by user
-router.get("/", function(req, res) {
+router.get('/', function(req, res) {
   var userId = req.userId;
   pool.connect(function(err, client, done) {
       client.query('SELECT * FROM trees WHERE creator_id=$1;', [userId], function(err, getTreesResult) {
@@ -24,7 +24,7 @@ router.get("/", function(req, res) {
 });//end router.get
 
 //creates a tree connected to user
-router.post("/", function(req, res) {
+router.post('/', function(req, res) {
   var userId = req.userId;
   var treeName =req.body.treeName;
   pool.connect(function(err, client, done) {
@@ -41,7 +41,7 @@ router.post("/", function(req, res) {
 });//end router.post
 
 //reads specific tree
-router.get("/tree/:treeId", function(req, res) {
+router.get('/tree/:treeId', function(req, res) {
   var userId = req.userId;
   var treeId = req.params.treeId;
   console.log('getting tree with id:', treeId);
@@ -60,7 +60,7 @@ router.get("/tree/:treeId", function(req, res) {
 });//end router.get
 
 //updates a tree name
-router.put("/:id", function(req, res) {
+router.put('/:id', function(req, res) {
   var treeId = req.params.id;
   var treeName = req.body.treeName;
   pool.connect(function(err, client, done) {
@@ -77,7 +77,7 @@ router.put("/:id", function(req, res) {
 });
 
 //deletes specific tree and all connected nodes and options
-router.delete("/tree/:treeId", function(req, res) {
+router.delete('/tree/:treeId', function(req, res) {
   var userId = req.userId;
   var treeId = req.params.treeId;
   console.log('deleting tree with id:', treeId);
@@ -98,7 +98,7 @@ router.delete("/tree/:treeId", function(req, res) {
 //-------------NODES CRUD-------------//
 
 //adds node to tree
-router.post("/nodes/:treeId", function(req, res) {
+router.post('/nodes/:treeId', function(req, res) {
   var treeId = req.params.treeId;
   var nodeContent = req.body;
   console.log('adding this content:', req.body);
@@ -118,7 +118,7 @@ router.post("/nodes/:treeId", function(req, res) {
 });//end router.post for nodes
 
 //gets list of nodes associated with tree id
-router.get("/nodes/:treeId", function(req, res) {
+router.get('/nodes/:treeId', function(req, res) {
   var userId = req.userId; //ensures nodes are only grabbed for trees made by this user
   var treeId = req.params.treeId;
   pool.connect(function(err, client, done) {
@@ -137,7 +137,7 @@ router.get("/nodes/:treeId", function(req, res) {
 });//end router.get for node questions
 
 //gets the presumed starting question node given specific tree
-router.get("/starting/:id", function(req,res) {
+router.get('/starting/:id', function(req,res) {
   var treeId = req.params.id;
 
   pool.connect(function(err, client, done) {
@@ -156,7 +156,7 @@ router.get("/starting/:id", function(req,res) {
 });//end router.get for starting question
 
 //getting specific question node
-router.get("/:id/:nodeId", function(req,res) {
+router.get('/:id/:nodeId', function(req,res) {
   var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect
   var nodeId = req.params.nodeId;
 
@@ -176,9 +176,9 @@ router.get("/:id/:nodeId", function(req,res) {
 });//end router.get for question
 
 //removes node
-router.delete("/nodes/:nodeId", function(req, res) {
+router.delete('/nodes/:nodeId', function(req, res) {
   var nodeId = req.params.nodeId;
-  console.log('deleteing this node:', nodeId);
+  console.log('deleting this node:', nodeId);
   pool.connect(function(err, client, done) {
     client.query('DELETE FROM nodes WHERE id=$1 RETURNING tree_id;',
     [nodeId],
@@ -197,7 +197,7 @@ router.delete("/nodes/:nodeId", function(req, res) {
 //-------------OPTIONS/RESPONSES CRUD-------------//
 
 //adding an option to a node
-router.post("/:nodeId/options", function(req, res) {
+router.post('/:nodeId/options', function(req, res) {
   var nodeId = req.params.nodeId;
   var responseObject = req.body;
   console.log('adding this option:', responseObject);
@@ -215,10 +215,10 @@ router.post("/:nodeId/options", function(req, res) {
       }
     });//end client.query for adding option
   });//end pool.connect
-});//end router.post for nodes
+});//end router.post for options
 
 //getting options given specific node
-router.get("/:id/options/:nodeId", function(req,res) {
+router.get('/:id/options/:nodeId', function(req,res) {
   var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect
   var nodeId = req.params.nodeId;
 
@@ -236,6 +236,25 @@ router.get("/:id/options/:nodeId", function(req,res) {
     });//end client.query for getting options
   });//end pool.connect
 });//end router.get for options
+
+//removes option
+router.delete('/options/:optionId', function(req,res) {
+  var optionId = req.params.optionId;
+  console.log('deleting option with id:', optionId);
+  pool.connect(function(err, client, done) {
+    client.query('DELETE FROM options WHERE id=$1;',
+    [optionId],
+    function(err, result) {
+      done();
+      if(err) {
+        console.log('error with option delete query:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end client.query for deleting option
+  });//end pool.connect
+}); //end router.delete on option
 
 
 

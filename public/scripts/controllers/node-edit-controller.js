@@ -19,7 +19,7 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
 
 
   //edit node question (put)
-  //edit options (put)
+
 
 
   //add options (post)
@@ -27,6 +27,12 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     TreeFactory.addResponse(text, thisTreeId, thisNodeId);
   };
 
+  //edit options (put)
+
+  //delete options (delete)
+  self.deleteResponse = function(responseId) {
+    TreeFactory.removeResponse(responseId, thisTreeId, thisNodeId);
+  }
   //add node (post)
 
       //return new question node id

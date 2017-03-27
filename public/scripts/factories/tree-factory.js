@@ -206,7 +206,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
-  //remove a user tree
+  //delete a user tree
   function removeTree(treeId) {
     console.log('removeTree running to delete', treeId);
     var firebaseUser = auth.$getAuth();
@@ -247,6 +247,26 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
+  //delete an option
+  function removeResponse(responseId, treeId, nodeId) {
+    console.log('removeResponse running to delete responseId: ' + responseId + ' on nodeId ' + nodeId + ' in treeId ' + treeId);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'DELETE',
+          url: '/trees/options/' + responseId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('response option deleted', response.data);
+            getNodeWithResponses(treeId, nodeId);
+        });
+      });
+    }
+  }
+
   return {
     addTree: addTree,
     addNode: addNode,
@@ -259,6 +279,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     nodeWithResponses: nodeWithResponses,
     editUserTree: editUserTree,
     removeTree: removeTree,
-    removeNode: removeNode
+    removeNode: removeNode,
+    removeResponse: removeResponse
   };
 }]);
