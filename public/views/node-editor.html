@@ -6,6 +6,7 @@
     <tr>
       <th>Response</th>
       <th>X</th>
+      <th>Next Node Id</th>
       <th>Follow Up Question</th>
       <th>Save And Follow</th>
     </tr>
@@ -16,10 +17,13 @@
       <td>
         <button type="button" ng-click="nec.deleteResponse(response.id)">X</button>
       </td>
+      <td>{{response.to_node_id}}</td>
       <td>
+        <!-- If the response already has to_node_id, getNextQuestion function for each response.to_node_id in this input field-->
         <input type="text" ng-model="nec.followUpQuestion" placeholder="follow-up node">
       </td>
       <td>
+        <!-- If getNextQuestion function pulls data, this button should update that data instead of adding node -->
         <button type="button" ng-click="nec.addNodeToResponse(nec.followUpQuestion, response.id)">Save and Follow</button>
       </td>
     </tr>

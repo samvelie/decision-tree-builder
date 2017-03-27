@@ -59,7 +59,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
               console.log('fromResponseId passed as', fromResponseId);
               var toNodeId =  response.data[0].id;
               updateResponse(fromResponseId, toNodeId);
-              //use nodeId that was returned to pass to url
             } else {
               getTreeWithNodes(treeId);
             }
@@ -155,6 +154,29 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     });
   }
 
+  //gets "starting" node for display
+  function getStartingNodeWithResponses(treeId) {
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken) {
+        $http({
+          method: 'GET',
+          url: '/trees/starting/' + treeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response) {
+          console.log('initial question data', response.data);
+          nodeWithResponses.node = response.data;
+          var startingQuestionId = response.data[0].id;
+          getResponsesForNode(treeId, startingQuestionId, idToken);
+        });
+      });
+    } else {
+      console.log('Not logged in or not authorized.');
+    }
+  }
+
   //gets a specific node and its connected responses
   function getNodeWithResponses(treeId, nodeId) {
     console.log('getNodeWithResponses running');
@@ -177,7 +199,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
-  //getting that node's responses above
+  //getting the requested node's responses
   function getResponsesForNode(treeId, thisNodeId, idToken) {
     console.log('getResponsesForNode running');
     $http({
@@ -304,6 +326,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     userTrees: userTrees,
     getTreeWithNodes: getTreeWithNodes,
     treeWithNodes: treeWithNodes,
+    getStartingNodeWithResponses: getStartingNodeWithResponses,
     getNodeWithResponses: getNodeWithResponses,
     nodeWithResponses: nodeWithResponses,
     editUserTree: editUserTree,
