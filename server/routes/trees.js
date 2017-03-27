@@ -76,7 +76,7 @@ router.put("/:id", function(req, res) {
   });//end pool.connect
 });
 
-//deletes specific tree
+//deletes specific tree and all connected nodes and options
 router.delete("/tree/:treeId", function(req, res) {
   var userId = req.userId;
   var treeId = req.params.treeId;

@@ -14,12 +14,12 @@ CREATE TABLE nodes (
 	id SERIAL PRIMARY KEY,
 	"content" TEXT,
 	tree_end BOOLEAN DEFAULT false,
-	tree_id INTEGER REFERENCES trees
+	tree_id INTEGER REFERENCES trees ON DELETE CASCADE
 );
 
 CREATE TABLE options (
 	id SERIAL PRIMARY KEY,
 	response_text VARCHAR(40),
-	from_node_id INTEGER REFERENCES nodes,
+	from_node_id INTEGER REFERENCES nodes ON DELETE CASCADE,
 	to_node_id INTEGER REFERENCES nodes
 );

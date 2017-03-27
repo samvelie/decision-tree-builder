@@ -230,6 +230,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     getNodeWithResponses: getNodeWithResponses,
     addTree: addTree,
     editUserTree: editUserTree,
+    removeTree: removeTree,
     addNode: addNode,
     removeNode: removeNode
   };

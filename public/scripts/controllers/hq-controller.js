@@ -22,6 +22,10 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
     // getTrees();
   };
 
+  self.deleteTree = function(treeId) {
+    TreeFactory.removeTree(treeId);
+  }
+
   function getTrees(){
     console.log('in hq getTrees: asking factory to get trees');
     TreeFactory.getUserTrees();
