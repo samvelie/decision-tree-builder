@@ -57,7 +57,7 @@ router.get('/tree/:treeId', function(req, res) {
        }
       });//end query for tree list
   });//end pool.connect
-});//end router.get
+});//end router.get for specific tree
 
 //updates a tree name
 router.put('/:id', function(req, res) {
@@ -72,7 +72,7 @@ router.put('/:id', function(req, res) {
        } else {
          res.sendStatus(200);
        }
-     });//end query for adding tree
+     });//end query for updating tree
   });//end pool.connect
 });
 
@@ -175,6 +175,26 @@ router.get('/:id/:nodeId', function(req,res) {
   });//end pool.connect
 });//end router.get for question
 
+//updates node
+router.put('/nodes/:nodeId', function(req,res) {
+  var nodeId = req.params.nodeId;
+  var updatedContent = req.body.content;
+
+  pool.connect(function(err, client, done) {
+       client.query('UPDATE nodes SET content=$1 WHERE id=$2;',
+       [updatedContent, nodeId],
+       function(err, result) {
+       done();
+       if(err) {
+         console.log('error updating node in db; query error:', err);
+         res.sendStatus(500);
+       } else {
+         res.sendStatus(200);
+       }
+     });//end query for updating node
+  });//end pool.connect
+})
+
 //removes node
 router.delete('/nodes/:nodeId', function(req, res) {
   var nodeId = req.params.nodeId;
@@ -217,13 +237,15 @@ router.post('/:nodeId/options', function(req, res) {
   });//end pool.connect
 });//end router.post for options
 
-//updating and option with the "to" node
+//updating an option with the "to" node
 router.put('/options/:optionId/:toNodeId', function(req,res) {
   var optionId = req.params.optionId;
   var toNodeId = req.params.toNodeId;
   console.log('updating ' + optionId + ' with toNodeId ' + toNodeId);
   pool.connect(function(err, client, done) {
-       client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;', [toNodeId, optionId], function(err, result) {
+       client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;',
+       [toNodeId, optionId],
+       function(err, result) {
        done();
        if(err) {
          console.log('error updating option in db; query error:', err);
@@ -235,13 +257,13 @@ router.put('/options/:optionId/:toNodeId', function(req,res) {
   });//end pool.connect
 });// end router.put for adding to_node_id to option
 
-//getting options given specific node
+//getting options given specific node & getting follow up nodes if an option has a "to_node_id"
 router.get('/:id/options/:nodeId', function(req,res) {
   var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect
   var nodeId = req.params.nodeId;
 
   pool.connect(function(err, client, done) {
-    client.query('SELECT * FROM options WHERE from_node_id = $1;',
+    client.query('SELECT * FROM options WHERE from_node_id = $1 ORDER BY to_node_id;',
     [nodeId],
     function(err, optionsResult) {
       done();
@@ -249,7 +271,42 @@ router.get('/:id/options/:nodeId', function(req,res) {
         console.log('error completing query for options on node:', err);
         res.sendStatus(500);
       } else {
-        res.send(optionsResult.rows);
+        console.log(optionsResult.rows);
+
+        var sqlCounter = 0; //this counter determines that the database will be queried again if > 0
+        var pgQueryString = 'nodes.id=$1'; // if sqlCounter>1, this string will look like nodes.id=$1 OR nodes.id=$2...
+        var nodeIdArray = [];
+
+        for (var i = 0; i < optionsResult.rows.length; i++) {
+          if (optionsResult.rows[i].to_node_id) { //checks for to_node_id on each returned row
+            sqlCounter ++;
+            nodeIdArray.push(optionsResult.rows[i].to_node_id);
+            if(sqlCounter>1) {
+              pgQueryString += ' OR nodes.id=$' + sqlCounter;
+            }
+          }
+        }
+
+        if(sqlCounter>0) {
+          pool.connect(function(err, client, done) {
+            client.query('SELECT * FROM nodes WHERE ' + pgQueryString + ' ORDER BY nodes.id;',
+            nodeIdArray,
+            function(err, followUpNodesResult) {
+              done();
+              if(err) {
+                console.log('error completing query for follow up nodes on options:', err);
+                res.sendStatus(500);
+              } else {
+                console.log('got followUpNodes:', followUpNodesResult.rows);
+                res.send([optionsResult.rows, followUpNodesResult.rows]);
+              }
+            }); //end client.query for getting follow up nodes
+          }); //end pool.connect for nodes
+        } else {
+          res.send([optionsResult.rows]);
+        }
+
+
       }
     });//end client.query for getting options
   });//end pool.connect

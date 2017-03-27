@@ -1,11 +1,8 @@
 app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($firebaseAuth, $http, $routeParams) {
   var auth = $firebaseAuth();
   var userTrees = { list: [] };
-  var treeWithNodes = { //will contain 1 tree with its question nodes
-    treeInfo: [],
-    nodeInfo: []
-    };
-  var nodeWithResponses = {}; //will contain 1 question node with response options
+  var treeWithNodes = {}; //will contain 1 tree with its question nodes
+  var nodeWithResponses = {}; //will contain 1 question node with response options and follow up questions if they exist
 
   auth.$onAuthStateChanged(function(firebaseUser) {
 
@@ -209,7 +206,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
         id_token: idToken
       }
     }).then(function(response) {
-        nodeWithResponses.responses = response.data;
+        nodeWithResponses.responses = response.data[0];
+        nodeWithResponses.followUpQuestions = response.data[1];
         console.log(nodeWithResponses);
     });
   }
@@ -231,6 +229,32 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
           console.log(response.data);
           //now make sure we have current info on DOM
           getTreeWithNodes(treeId);
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
+
+  //edits a node's content
+  function editNode(nodeObject) {
+    var nodeId = nodeObject.id;
+    var treeId = nodeObject.tree_id;
+    console.log('editNode running with:', nodeObject);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'PUT',
+          url: '/trees/nodes/' + nodeId,
+          data: nodeObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          console.log(response.data);
+          getTreeWithNodes(treeId);
+          getNodeWithResponses(treeId, nodeId);
         });
       });
     } else {
@@ -330,6 +354,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     getNodeWithResponses: getNodeWithResponses,
     nodeWithResponses: nodeWithResponses,
     editUserTree: editUserTree,
+    editNode: editNode,
     removeTree: removeTree,
     removeNode: removeNode,
     removeResponse: removeResponse
