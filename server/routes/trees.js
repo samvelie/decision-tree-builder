@@ -196,6 +196,27 @@ router.delete("/nodes/:nodeId", function(req, res) {
 
 //-------------OPTIONS/RESPONSES CRUD-------------//
 
+//adding an option to a node
+router.post("/:nodeId/options", function(req, res) {
+  var nodeId = req.params.nodeId;
+  var responseObject = req.body;
+  console.log('adding this option:', responseObject);
+  console.log('on this node:', nodeId);
+  pool.connect(function(err, client, done) {
+    client.query('INSERT INTO options (response_text, from_node_id) VALUES ($1, $2);',
+    [responseObject.text, nodeId],
+    function(err, result) {
+      done();
+      if(err) {
+        console.log('error with option add query:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end client.query for adding option
+  });//end pool.connect
+});//end router.post for nodes
+
 //getting options given specific node
 router.get("/:id/options/:nodeId", function(req,res) {
   var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect

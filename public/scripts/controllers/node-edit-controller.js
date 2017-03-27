@@ -20,9 +20,17 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
 
   //edit node question (put)
   //edit options (put)
+
+
   //add options (post)
+  self.addResponse = function(text) {
+    TreeFactory.addResponse(text, thisTreeId, thisNodeId);
+  };
+
   //add node (post)
+
       //return new question node id
+      //pass "from" option id in function
 			//edit new option with returned question node id -> to_id
 
 }]);

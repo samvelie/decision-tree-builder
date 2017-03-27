@@ -1,4 +1,11 @@
-<h1>Editing Node</h1>
+<h1>Node Editor</h1>
 
-<h2>{{nec.nodeInfo.node[0].content}}</h2>
-<h3 ng-repeat= "response in nec.nodeInfo.responses"></h3>
+<h2>Node: {{nec.nodeInfo.node[0].content}}</h2>
+<div class="responses">
+  <h2>Responses:</h2>
+  <h3 ng-repeat= "response in nec.nodeInfo.responses">{{response.response_text}}</h3>
+  <input type="text" ng-model="nec.newResponse">
+  <button type="button" ng-click="nec.addResponse(nec.newResponse)">Add Response</button>
+</div>
+
+<h4>{{nec.nodeInfo.responses}}</h4>

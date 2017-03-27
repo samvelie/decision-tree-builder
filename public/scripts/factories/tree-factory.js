@@ -61,6 +61,30 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
+  //add a response to a node
+  function addResponse(responseText, treeId, nodeId) {
+    console.log('addResponse running with: ' + responseText + ' on nodeId ' + nodeId + ' on treeId ' + treeId);
+    var responseObject = {text: responseText};
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'POST',
+          url: '/trees/' + nodeId + '/options',
+          data: responseObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('option on node created', response.data);
+            getNodeWithResponses(treeId, nodeId);
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
+
   //get trees for "My Trees"
   function getUserTrees() {
     console.log('getUserTrees running');
@@ -226,6 +250,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   return {
     addTree: addTree,
     addNode: addNode,
+    addResponse: addResponse,
     getUserTrees: getUserTrees,
     userTrees: userTrees,
     getTreeWithNodes: getTreeWithNodes,
