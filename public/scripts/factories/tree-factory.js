@@ -13,7 +13,77 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   userTrees.loggedIn = firebaseUser !== null;
   });
 
+  //add a user tree
+  function addTree(treeObject) {
+    console.log('addTree running with', treeObject);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'POST',
+          url: '/trees',
+          data: treeObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          console.log('Factory tree added: ', response.data);
+          treeWithNodes.treeInfo= response.data;
+          // now update our trees array to share with the controller(s)
+          getUserTrees();
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
 
+  //add a node to tree
+  function addNode(nodeObject, treeId) {
+    console.log('addNode running with ' + nodeObject.words + ' on treeId: ' + treeId);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'POST',
+          url: '/trees/nodes/' + treeId,
+          data: nodeObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('node created', response.data);
+            getTreeWithNodes(treeId);
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
+
+  //get trees for "My Trees"
+  function getUserTrees() {
+    console.log('getUserTrees running');
+      var firebaseUser = auth.$getAuth();
+      if(firebaseUser) {
+        firebaseUser.getToken().then(function(idToken){
+          $http({
+            method: 'GET',
+            url: '/trees',
+            headers: {
+              id_token: idToken
+            }
+          }).then(function(response){
+              console.log('factory got trees: ', response.data);
+              userTrees.list = response.data;
+          });
+        });
+      } else {
+        console.log('Not logged in or not authorized.');
+      }
+  }
+
+  //gets a specific tree and its connected nodes
   function getTreeWithNodes(treeId) {
     console.log('getTreeWithNodes running with', treeId);
     var firebaseUser = auth.$getAuth();
@@ -36,6 +106,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
+  //getting that tree's nodes above
   function getNodesForTree(treeId, idToken) {
     console.log('getNodesForTree running');
     $http({
@@ -50,6 +121,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     });
   }
 
+  //gets a specific node and its connected responses
   function getNodeWithResponses(treeId, nodeId) {
     console.log('getNodeWithResponses running');
     var firebaseUser = auth.$getAuth();
@@ -71,6 +143,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
+  //getting that node's responses above
   function getResponsesForNode(treeId, thisNodeId, idToken) {
     console.log('getResponsesForNode running');
     $http({
@@ -85,24 +158,23 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     });
   }
 
-  //add a user tree
-  function addTree(treeObject) {
-    console.log('addTree running with', treeObject);
+  //edit a user tree
+  function editUserTree(treeId, treeObject) {
+    console.log('editUserTree running with', treeObject);
     var firebaseUser = auth.$getAuth();
     if(firebaseUser) {
       firebaseUser.getToken().then(function(idToken){
         $http({
-          method: 'POST',
-          url: '/trees',
+          method: 'PUT',
+          url: '/trees/' + treeId,
           data: treeObject,
           headers: {
             id_token: idToken
           }
         }).then(function(response){
-          console.log('Factory tree added: ', response.data);
-          treeWithNodes.treeInfo= response.data;
-          // now update our trees array to share with the controller(s)
-          getUserTrees();
+          console.log(response.data);
+          //now make sure we have current info on DOM
+          getTreeWithNodes(treeId);
         });
       });
     } else {
@@ -130,76 +202,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
     }
   }
 
-  //edit a user tree
-  function editUserTree(treeId, treeObject) {
-    console.log('editUserTree running with', treeObject);
-    var firebaseUser = auth.$getAuth();
-    if(firebaseUser) {
-      firebaseUser.getToken().then(function(idToken){
-        $http({
-          method: 'PUT',
-          url: '/trees/' + treeId,
-          data: treeObject,
-          headers: {
-            id_token: idToken
-          }
-        }).then(function(response){
-          console.log(response.data);
-          //now make sure we have current info on DOM
-          getTreeWithNodes(treeId);
-        });
-      });
-    } else {
-      console.log('Can not post to database when not logged in.');
-    }
-  }
-
-
-  //get trees for "My Trees"
-  function getUserTrees() {
-    console.log('getUserTrees running');
-      var firebaseUser = auth.$getAuth();
-      if(firebaseUser) {
-        firebaseUser.getToken().then(function(idToken){
-          $http({
-            method: 'GET',
-            url: '/trees',
-            headers: {
-              id_token: idToken
-            }
-          }).then(function(response){
-              console.log('factory got trees: ', response.data);
-              userTrees.list = response.data;
-          });
-        });
-      } else {
-        console.log('Not logged in or not authorized.');
-      }
-  }
-
-  //add a node to tree
-  function addNode(nodeObject, treeId) {
-    console.log('addNode running with ' + nodeObject.words + ' on treeId: ' + treeId);
-    var firebaseUser = auth.$getAuth();
-    if(firebaseUser) {
-      firebaseUser.getToken().then(function(idToken){
-        $http({
-          method: 'POST',
-          url: '/trees/nodes/' + treeId,
-          data: nodeObject,
-          headers: {
-            id_token: idToken
-          }
-        }).then(function(response){
-            console.log('node created', response.data);
-            getTreeWithNodes(treeId);
-        });
-      });
-    } else {
-      console.log('Can not post to database when not logged in.');
-    }
-  }
-
   //delete a node
   function removeNode(nodeId) {
     console.log('removeNode running to delete ' + nodeId);
@@ -222,16 +224,16 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   return {
+    addTree: addTree,
+    addNode: addNode,
     getUserTrees: getUserTrees,
     userTrees: userTrees,
-    treeWithNodes: treeWithNodes,
     getTreeWithNodes: getTreeWithNodes,
-    nodeWithResponses: nodeWithResponses,
+    treeWithNodes: treeWithNodes,
     getNodeWithResponses: getNodeWithResponses,
-    addTree: addTree,
+    nodeWithResponses: nodeWithResponses,
     editUserTree: editUserTree,
     removeTree: removeTree,
-    addNode: addNode,
     removeNode: removeNode
   };
 }]);

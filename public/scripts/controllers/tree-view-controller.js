@@ -10,6 +10,7 @@ app.controller('TreeViewController', function($firebaseAuth, $http, $routeParams
 
   self.optionDisplay= [];
 
+  //this below code needs to be functionalized and moved to the factory
   if(firebaseUser) {
     firebaseUser.getToken().then(function(idToken) {
       $http({

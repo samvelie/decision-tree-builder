@@ -9,9 +9,7 @@ admin.initializeApp({
   databaseURL: "https://decision-trees.firebaseio.com"
 });
 
-/* This is where the magic happens. We pull the id_token off of the request,
-verify it against our firebase service account private_key.
-Then we add the decodedToken */
+// runs to deal with all incoming requests 
 var tokenDecoder = function(req, res, next){
   if (req.headers.id_token) {
     admin.auth().verifyIdToken(req.headers.id_token).then(function(decodedToken) {
