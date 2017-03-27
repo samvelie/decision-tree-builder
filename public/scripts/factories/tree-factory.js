@@ -36,7 +36,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   //add a node to tree
-  function addNode(nodeContent, treeId, fromResponseId) {
+  function addNode(nodeContent, treeId, fromResponseId, currentNodeId) {
     console.log('addNode running with ' + nodeContent + ' on treeId: ' + treeId);
     var firebaseUser = auth.$getAuth();
     var nodeObject = {content: nodeContent};
@@ -55,7 +55,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
               //update option that was connected
               console.log('fromResponseId passed as', fromResponseId);
               var toNodeId =  response.data[0].id;
-              updateResponse(fromResponseId, toNodeId);
+              updateResponse(fromResponseId, toNodeId, treeId, currentNodeId);
+
             } else {
               getTreeWithNodes(treeId);
             }
@@ -253,8 +254,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
           }
         }).then(function(response){
           console.log(response.data);
-          getTreeWithNodes(treeId);
-          getNodeWithResponses(treeId, nodeId);
+          // getTreeWithNodes(treeId);
+          // getNodeWithResponses(treeId, nodeId);
         });
       });
     } else {
@@ -263,7 +264,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   //update a response with the "to_node_id"
-  function updateResponse(responseId, toNodeId) {
+  function updateResponse(responseId, toNodeId, treeId, currentNodeId) {
     console.log('updating responseId ' + responseId + ' with toNodeId ' + toNodeId);
     var firebaseUser = auth.$getAuth();
     if(firebaseUser) {
@@ -275,7 +276,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
             id_token: idToken
           }
         }).then(function(response){
-            console.log('response updated');
+            console.log('response option updated:', response);
+            getNodeWithResponses(treeId, currentNodeId);
         });
       });
     }

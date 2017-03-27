@@ -1,4 +1,4 @@
-app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routeParams', function(TreeFactory, $firebaseAuth, $routeParams) {
+app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routeParams', '$location', function(TreeFactory, $firebaseAuth, $routeParams, $location) {
   var auth = $firebaseAuth();
   var self = this;
 
@@ -16,9 +16,23 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
     TreeFactory.getNodeWithResponses(thisTreeId, thisNodeId);
   }
 
-
+  //add node (post)
+  self.addNodeToResponse = function(content, fromResponseId) {
+    console.log('content', content + ' fromResponseId ' + fromResponseId);
+    //return new question node id
+    //pass "from" option id in function
+    //edit new option with returned question node id -> to_id
+    TreeFactory.addNode(content, thisTreeId, fromResponseId, thisNodeId);
+  };
 
   //edit node question (put)
+  self.updateNodeContent = function (nodeToUpdate) {
+    console.log(nodeToUpdate);
+    var followNodeId = nodeToUpdate.id;
+    TreeFactory.editNode(nodeToUpdate);
+    $location.url('/edit/' + thisTreeId + '/' + followNodeId);
+  };
+
 
 
   //add options (post)
@@ -27,24 +41,14 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
   };
 
   //edit options (put)
-  self.updateNodeContent = function (nodeToUpdate) {
-    console.log(nodeToUpdate);
-    TreeFactory.editNode(nodeToUpdate);
-  };
+
 
   //delete options (delete)
   self.deleteResponse = function(responseId) {
     TreeFactory.removeResponse(responseId, thisTreeId, thisNodeId);
   };
 
-  //add node (post)
-  self.addNodeToResponse = function(content, fromResponseId) {
-    console.log('content', content + ' fromResponseId ' + fromResponseId);
-    //return new question node id
-    //pass "from" option id in function
-    //edit new option with returned question node id -> to_id
-    TreeFactory.addNode(content, thisTreeId, fromResponseId);
-  };
+
 
 
 }]);
