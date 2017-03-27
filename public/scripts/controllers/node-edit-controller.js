@@ -32,11 +32,16 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
   //delete options (delete)
   self.deleteResponse = function(responseId) {
     TreeFactory.removeResponse(responseId, thisTreeId, thisNodeId);
-  }
+  };
+  
   //add node (post)
+  self.addNodeToResponse = function(content, fromResponseId) {
+    console.log('content', content + ' fromResponseId ' + fromResponseId);
+    //return new question node id
+    //pass "from" option id in function
+    //edit new option with returned question node id -> to_id
+    TreeFactory.addNode(content, thisTreeId, fromResponseId);
+  };
 
-      //return new question node id
-      //pass "from" option id in function
-			//edit new option with returned question node id -> to_id
 
 }]);

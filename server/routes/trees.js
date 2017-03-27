@@ -100,11 +100,11 @@ router.delete('/tree/:treeId', function(req, res) {
 //adds node to tree
 router.post('/nodes/:treeId', function(req, res) {
   var treeId = req.params.treeId;
-  var nodeContent = req.body;
-  console.log('adding this content:', req.body);
+  var nodeContent = req.body.content;
+  console.log('adding this content object:', nodeContent);
   pool.connect(function(err, client, done) {
     client.query('INSERT INTO nodes (content, tree_id) VALUES ($1, $2) RETURNING id;',
-    [nodeContent.words, treeId],
+    [nodeContent, treeId],
     function(err, result) {
       done();
       if(err) {
@@ -216,6 +216,24 @@ router.post('/:nodeId/options', function(req, res) {
     });//end client.query for adding option
   });//end pool.connect
 });//end router.post for options
+
+//updating and option with the "to" node
+router.put('/options/:optionId/:toNodeId', function(req,res) {
+  var optionId = req.params.optionId;
+  var toNodeId = req.params.toNodeId;
+  console.log('updating ' + optionId + ' with toNodeId ' + toNodeId);
+  pool.connect(function(err, client, done) {
+       client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;', [toNodeId, optionId], function(err, result) {
+       done();
+       if(err) {
+         console.log('error updating option in db; query error:', err);
+         res.sendStatus(500);
+       } else {
+         res.sendStatus(200);
+       }
+     });//end query for updating option
+  });//end pool.connect
+});// end router.put for adding to_node_id to option
 
 //getting options given specific node
 router.get('/:id/options/:nodeId', function(req,res) {

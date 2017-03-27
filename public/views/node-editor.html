@@ -1,16 +1,38 @@
 <h1>Node Editor</h1>
 
 <h2>Node: {{nec.nodeInfo.node[0].content}}</h2>
-<div class="responses">
-  <h2>Responses:</h2>
-  <div ng-repeat= "response in nec.nodeInfo.responses">
-    <span>
-      <h3>{{response.response_text}}</h3>
-      <button type="button" ng-click="nec.deleteResponse(response.id)">X</button>
-    </span>
-  </div>
-  <input type="text" ng-model="nec.newResponse">
-  <button type="button" ng-click="nec.addResponse(nec.newResponse)">Add Response</button>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Response</th>
+      <th>X</th>
+      <th>Follow Up Question</th>
+      <th>Save And Follow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat= "response in nec.nodeInfo.responses">
+      <td>{{response.response_text}}</td>
+      <td>
+        <button type="button" ng-click="nec.deleteResponse(response.id)">X</button>
+      </td>
+      <td>
+        <input type="text" ng-model="nec.followUpQuestion" placeholder="follow-up node">
+      </td>
+      <td>
+        <button type="button" ng-click="nec.addNodeToResponse(nec.followUpQuestion, response.id)">Save and Follow</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text" ng-model="nec.newResponse">
+      </td>
+      <td>
+        <button type="button" ng-click="nec.addResponse(nec.newResponse)">+</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <h4>{{nec.nodeInfo.responses}}</h4>

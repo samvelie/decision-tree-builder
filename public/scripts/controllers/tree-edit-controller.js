@@ -5,7 +5,6 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
   var treeId = $routeParams.id;
 
   var treeObject = {};
-  self.newNode = {};
 
   self.treeData = TreeFactory.treeWithNodes;
 
@@ -40,13 +39,10 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
       }
   };
 
-  self.addNodeToTree = function(nodeObject) {
-    console.log('treeditor addNodeToTree using:', nodeObject);
+  self.addNodeToTree = function(nodeContent) {
+    console.log('treeditor addNodeToTree using:', nodeContent);
     treeId =  self.treeData.treeInfo[0].id;
-    TreeFactory.addNode(nodeObject, treeId).then( function() {
-      self.newNode.words = '';
-    }
-    );
+    TreeFactory.addNode(nodeContent, treeId);
   };
 
   self.deleteNode = function(nodeId) {

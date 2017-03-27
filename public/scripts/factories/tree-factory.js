@@ -39,9 +39,10 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   //add a node to tree
-  function addNode(nodeObject, treeId) {
-    console.log('addNode running with ' + nodeObject.words + ' on treeId: ' + treeId);
+  function addNode(nodeContent, treeId, fromResponseId) {
+    console.log('addNode running with ' + nodeContent + ' on treeId: ' + treeId);
     var firebaseUser = auth.$getAuth();
+    var nodeObject = {content: nodeContent};
     if(firebaseUser) {
       firebaseUser.getToken().then(function(idToken){
         $http({
@@ -53,7 +54,16 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
           }
         }).then(function(response){
             console.log('node created', response.data);
-            getTreeWithNodes(treeId);
+            if (fromResponseId) {
+              //update option that was connected
+              console.log('fromResponseId passed as', fromResponseId);
+              var toNodeId =  response.data[0].id;
+              updateResponse(fromResponseId, toNodeId);
+              //use nodeId that was returned to pass to url
+            } else {
+              getTreeWithNodes(treeId);
+            }
+
         });
       });
     } else {
@@ -203,6 +213,25 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
       });
     } else {
       console.log('Can not post to database when not logged in.');
+    }
+  }
+
+  //update a response with the "to_node_id"
+  function updateResponse(responseId, toNodeId) {
+    console.log('updating responseId ' + responseId + ' with toNodeId ' + toNodeId);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'PUT',
+          url: '/trees/options/' + responseId + '/' + toNodeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+            console.log('response updated');
+        });
+      });
     }
   }
 
