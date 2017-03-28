@@ -4,9 +4,12 @@ app.controller('TreeViewController', ['TreeFactory', '$firebaseAuth', '$routePar
 
   var treeId = $routeParams.id;
 
+  var nodeIdOrder = []; //tracks node id journey for back button operation;
+
   self.tree = treeId; //for testing
 
   self.nodeInfo = TreeFactory.nodeWithResponses;
+
 
   auth.$onAuthStateChanged(function(firebaseUser) {
     if(firebaseUser) {
@@ -25,9 +28,16 @@ app.controller('TreeViewController', ['TreeFactory', '$firebaseAuth', '$routePar
 
 
   //on click of option
-  self.getNextQuestion = function(nextNodeId) {
-    console.log('going to nodeId', nextNodeId);
+  self.getNextQuestion = function(previousNodeId, nextNodeId) {
+    console.log('going from nodeId ' + previousNodeId + ' to ' + nextNodeId);
+    nodeIdOrder.push(previousNodeId);
+
     TreeFactory.getNodeWithResponses(treeId, nextNodeId);
   };
 
+  //if I want, update "current node" value with the node that was previously on when the next question is clicked, to allow to go backwards
+  self.previousQuestion = function() {
+    var previousNodeId = nodeIdOrder.pop();
+    TreeFactory.getNodeWithResponses(treeId, previousNodeId);
+  };
 }]);

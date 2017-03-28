@@ -29,6 +29,11 @@ app.config(['$routeProvider', function($routeProvider) {
           controller: 'NodeEditController',
           controllerAs: 'nec'
       })
+      .when ('/global', {
+          templateUrl: '/views/global-view.html',
+          controller: 'GlobalListController',
+          controllerAs: 'glc'
+      })
       .otherwise ( {
           redirectTo: 'hq'
       });

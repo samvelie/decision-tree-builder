@@ -19,8 +19,7 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
   //add node (post)
   self.addNodeToResponse = function(content, fromResponseId) {
     console.log('content', content + ' fromResponseId ' + fromResponseId);
-    //return new question node id
-    //pass "from" option id in function
+    //returns new question node id
     //edit new option with returned question node id -> to_id
     TreeFactory.addNode(content, thisTreeId, fromResponseId, thisNodeId);
   };

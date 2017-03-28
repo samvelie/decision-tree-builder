@@ -30,6 +30,10 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
     TreeFactory.removeTree(treeId);
   };
 
+  self.makePublic = function(treeId) {
+    console.log('ng change working on', treeId);
+  }
+
   function getTrees(){
     console.log('in hq getTrees: asking factory to get trees');
     TreeFactory.getUserTrees();

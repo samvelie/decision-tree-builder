@@ -22,13 +22,13 @@
         <!-- If the response already has to_node_id, this field should have the existing follow up question-->
         <input ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="text" ng-model="nec.nodeInfo.followUpQuestions[$index].content">
 
-        <input ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="text" ng-model="nec.followUpQuestion" placeholder="follow-up node">
+        <input ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="text" ng-model="nec.followUpQuestion[$index]" placeholder="follow-up node">
       </td>
       <td>
         <!-- If getNextQuestion function pulls data, this button should update that data instead of adding node -->
         <button ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn" ng-click="nec.updateNodeContent(nec.nodeInfo.followUpQuestions[$index])">Update and Follow Question</button>
 
-        <button ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn" ng-click="nec.addNodeToResponse(nec.followUpQuestion, response.id)">Save and Follow</button>
+        <button ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn" ng-click="nec.addNodeToResponse(nec.followUpQuestion[$index], response.id)">Save</button>
       </td>
     </tr>
     <tr>

@@ -1,13 +1,15 @@
 <h1>Tree Viewer</h1>
 
-
-
 <div class="container text-center">
   <h2 ng-class= "{'tree-end': tvc.nodeInfo.node[0].tree_end}">{{tvc.nodeInfo.node[0].content}}</h2>
 </div>
 
 <div class="container text-center" ng-if="!tvc.nodeInfo.node[0].tree_end">
   <span ng-repeat= "response in tvc.nodeInfo.responses">
-    <button class="btn" ng-click="tvc.getNextQuestion(response.to_node_id)">{{response.response_text}}</button>
+    <button class="btn" ng-click="tvc.getNextQuestion(response.from_node_id, response.to_node_id)">{{response.response_text}}</button>
   </span>
+</div>
+
+<div class="container text-center" ng-if="tvc.nodeInfo.node[0].id != tvc.nodeInfo.starting.id">
+  <button class= "btn back" ng-click="tvc.previousQuestion()"><img src="../../css/fonts/glyphicon-arrow-left.png" alt="previous question"></button>
 </div>

@@ -13,6 +13,8 @@ app.get('/', function(req, res){
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
+// public routes
+
 // Decodes the token in the request header and attaches the decoded token to the request.
 app.use(decoder.token);
 

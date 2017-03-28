@@ -36,6 +36,11 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   }
 
   //add a node to tree
+  /**
+    * @function sends new node data to server, updates current node with results
+    * @param {String} nodeContent text content for this node
+    * @param {String} treeId DB id for this tree
+  **/
   function addNode(nodeContent, treeId, fromResponseId, currentNodeId) {
     console.log('addNode running with ' + nodeContent + ' on treeId: ' + treeId);
     var firebaseUser = auth.$getAuth();
@@ -166,8 +171,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
         }).then(function(response) {
           console.log('initial question data', response.data);
           nodeWithResponses.node = response.data;
-          var startingQuestionId = response.data[0].id;
-          getResponsesForNode(treeId, startingQuestionId, idToken);
+          var startingQuestion = response.data[0];
+          nodeWithResponses.starting = startingQuestion; // for tree viewer "back button" logic
+          getResponsesForNode(treeId, startingQuestion.id, idToken);
         });
       });
     } else {
