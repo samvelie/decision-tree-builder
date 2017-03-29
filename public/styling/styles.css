@@ -30,6 +30,11 @@ td{
   border-top: none !important;
 }
 
+.tree-list-container {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .tree-end {
   background-color: #81d5aa;
 }

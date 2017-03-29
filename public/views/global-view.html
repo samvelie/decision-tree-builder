@@ -1,3 +1,7 @@
-<h1>Free Trees</h1>
-
-{{glc.message}}
+<h2>Global Trees</h2>
+<div class="tree-list-container">
+  <div ng-repeat="tree in glc.globalTrees.list track by $index">
+    <h3>{{tree.tree_name}}</h3>
+    <a ng-href="#!global/{{tree.id}}">View This Tree</a>
+  </div>
+</div>
