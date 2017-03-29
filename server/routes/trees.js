@@ -64,7 +64,8 @@ router.put('/:id', function(req, res) {
   var treeId = req.params.id;
   var treeName = req.body.treeName;
   pool.connect(function(err, client, done) {
-       client.query('UPDATE trees SET tree_name=$1 WHERE id=$2;', [treeName, treeId], function(err, result) {
+       client.query('UPDATE trees SET tree_name=$1 WHERE id=$2;',
+       [treeName, treeId], function(err, result) {
        done();
        if(err) {
          console.log('error updating tree in db; query error:', err);
@@ -73,6 +74,24 @@ router.put('/:id', function(req, res) {
          res.sendStatus(200);
        }
      });//end query for updating tree
+  });//end pool.connect
+});
+
+//changes a tree's public status
+router.put('/flip/:treeId', function(req, res) {
+  var treeId = req.params.treeId;
+  var userId = req.userId; //for security
+  pool.connect(function(err, client, done) {
+       client.query('UPDATE trees SET public = NOT public WHERE trees.id=$1 AND trees.creator_id=$2;',
+       [treeId, userId], function(err, result) {
+       done();
+       if(err) {
+         console.log('error updating tree in db; query error:', err);
+         res.sendStatus(500);
+       } else {
+         res.sendStatus(200);
+       }
+     });//end query for updating tree public status
   });//end pool.connect
 });
 

@@ -35,6 +35,6 @@ app.config(['$routeProvider', function($routeProvider) {
           controllerAs: 'glc'
       })
       .otherwise ( {
-          redirectTo: 'hq'
+          redirectTo: 'login'
       });
 }]);

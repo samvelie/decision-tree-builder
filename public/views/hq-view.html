@@ -8,8 +8,8 @@
     <h3>{{tree.tree_name}}</h3>
     <a ng-href="#!edit/{{tree.id}}">Edit This Tree</a>
     <a ng-href="#!view/{{tree.id}}">View This Tree</a>
-    <input type="checkbox" name="make-public" ng-model="hc.publicStatus[$index]" ng-change="hc.makePublic(tree.id)">
-    <label for="make-public">Make Tree Public</label>
+    <input type="checkbox" name="make-public" ng-model="tree.public" ng-change="hc.makePublic(tree.id)">
+    <label for="make-public">Publicly Viewable</label>
     <button ng-click="hc.deleteTree(tree.id)">Delete</button>
   </div>
 </div>

@@ -31,6 +31,7 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
 
   self.makePublic = function(treeId) {
     console.log('ng change working on', treeId);
+    TreeFactory.toggleTreeStatus(treeId);
   }
 
   function getTrees(){

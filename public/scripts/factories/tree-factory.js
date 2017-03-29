@@ -237,6 +237,30 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', function($firebaseAuth, $h
     }
   }
 
+  //toggles public status on treeId
+  function toggleTreeStatus(treeId) {
+    console.log('flipping tree status on', treeId);
+
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'PUT',
+          url: '/trees/flip/' + treeId,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          console.log(response.data);
+          //now make sure we have current info on DOM
+          getUserTrees();
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+  }
+
   //edits a node's content
   function editNode(nodeObject) {
     var nodeId = nodeObject.id;
@@ -356,6 +380,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', function($firebaseAuth, $h
     getNodeWithResponses: getNodeWithResponses,
     nodeWithResponses: nodeWithResponses,
     editUserTree: editUserTree,
+    toggleTreeStatus: toggleTreeStatus,
     editNode: editNode,
     removeTree: removeTree,
     removeNode: removeNode,
