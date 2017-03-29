@@ -35,7 +35,7 @@ app.controller('TreeViewController', ['TreeFactory', '$firebaseAuth', '$routePar
     TreeFactory.getNodeWithResponses(treeId, nextNodeId);
   };
 
-  //if I want, update "current node" value with the node that was previously on when the next question is clicked, to allow to go backwards
+  //tracks backwards on tree
   self.previousQuestion = function() {
     var previousNodeId = nodeIdOrder.pop();
     TreeFactory.getNodeWithResponses(treeId, previousNodeId);

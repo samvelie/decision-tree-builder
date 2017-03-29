@@ -4,12 +4,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($
   var treeWithNodes = {}; //will contain 1 tree with its question nodes
   var nodeWithResponses = {}; //will contain 1 question node with response options and follow up questions if they exist
 
-  auth.$onAuthStateChanged(function(firebaseUser) {
-
-  // Check directly if firebaseUser is null
-  userTrees.loggedIn = firebaseUser !== null;
-  });
-
   //add a user tree
   function addTree(treeObject) {
     console.log('addTree running with', treeObject);

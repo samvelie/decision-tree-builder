@@ -2,8 +2,17 @@ app.controller('LoginController', function($firebaseAuth, $location) {
   var auth = $firebaseAuth();
   var self = this;
 
+  self.pageUrl = $location.$$url; //variable to hide/show the navbar
+  console.log(self.pageUrl);
+
   //want to set a variable, accessible by all views that indicates the user is logged in, so the login/logout buttons appear dynamically
   //may need to bring in the factory dependency for this
+
+  auth.$onAuthStateChanged(function(firebaseUser) {
+
+  // Check directly if firebaseUser is null
+  self.loggedIn = firebaseUser !== null;
+  });
 
   // This code runs whenever the user logs in
   self.logIn = function() {
@@ -29,7 +38,7 @@ app.controller('LoginController', function($firebaseAuth, $location) {
   self.logOut = function() {
     auth.$signOut().then(function(){
       console.log('Logging the user out!');
-      $location.url('/');
+      $location.url('/login');
     });
   };
 

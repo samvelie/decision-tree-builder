@@ -1,13 +1,15 @@
 <nav class="navbar" ng-controller="LoginController as lc">
-<div class="container-fluid">
-  <div class="navbar-header">
-    <a href="#!hq"><img src="../../css/fonts/glyphicon-home.png" alt="Home"></a>
+<div>
+  <div class="container-fluid">
+    <div class="navbar-header" ng-if="lc.loggedIn">
+      <a href="#!hq"><img src="../../styling/fonts/glyphicon-home.png" alt="Home"></a>
+    </div>
+    <div class="login-buttons" style="display: inline-block;">
+      <ul class= "nav navbar-nav ">
+        <li><button ng-click="lc.logIn()" class="button login" ng-if="!lc.loggedIn">Log In</button></li>
+        <li><button ng-click="lc.logOut()" class="button login" ng-if="lc.loggedIn">Log Out</button></li>
+      </ul>
   </div>
-  <div class="login-buttons" style="display: inline-block;">
-    <ul class= "nav navbar-nav ">
-      <li><button ng-click="lc.logIn()" class="button login">Log In</button></li>
-      <li><button ng-click="lc.logOut()" class="button login">Log Out</button></li>
-    </ul>
-</div>
+  </div>
 </div>
 </nav>

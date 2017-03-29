@@ -22,7 +22,6 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
   self.addTree = function(treeObject) {
     console.log('hq controller ask factory to add tree');
     TreeFactory.addTree(treeObject);
-    // getTrees();
   };
 
   // deleteTree will delete a tree and all connected nodes and options based on the SQL cascade delete design
