@@ -1,4 +1,4 @@
-app.factory('TreeFactory', ['$firebaseAuth', '$http', function($firebaseAuth, $http) {
+app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function($firebaseAuth, $http, GlobalFactory) {
   var auth = $firebaseAuth();
   var userTrees = { list: [] };
   var treeWithNodes = {}; //will contain 1 tree with its question nodes
@@ -254,6 +254,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', function($firebaseAuth, $h
           console.log(response.data);
           //now make sure we have current info on DOM
           getUserTrees();
+          GlobalFactory.getTreeList();
         });
       });
     } else {

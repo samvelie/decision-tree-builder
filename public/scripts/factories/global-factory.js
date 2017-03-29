@@ -25,6 +25,7 @@ app.factory('GlobalFactory', ['$http', function($http) {
   }
 
   return {
+    getTreeList: getTreeList,
     freeTreeList: globalTrees,
     getFreeTreeForView: getFreeTreeForView,
     freeTreeNodesAndResponses: freeTreeComplete

@@ -1,10 +1,11 @@
 <h1>Decision Tree HQ</h1>
 <div class="container col-md-6">
   <h2>My Trees</h2>
-  <input type="text" ng-model="hc.newTree.treeName">
-  <button ng-click="hc.addTree(hc.newTree)">Add Decision Tree with this name</button>
+
 
   <div class="tree-list-container">
+    <input type="text" ng-model="hc.newTree.treeName">
+    <button ng-click="hc.addTree(hc.newTree)">Add Decision Tree with this name</button>
     <div ng-repeat="tree in hc.treeArray.list track by $index">
       <h3>{{tree.tree_name}}</h3>
       <a ng-href="#!edit/{{tree.id}}">Edit This Tree</a>
