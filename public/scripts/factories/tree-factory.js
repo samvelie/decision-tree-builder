@@ -1,4 +1,4 @@
-app.factory('TreeFactory', ['$firebaseAuth', '$http', '$routeParams', function($firebaseAuth, $http, $routeParams) {
+app.factory('TreeFactory', ['$firebaseAuth', '$http', function($firebaseAuth, $http) {
   var auth = $firebaseAuth();
   var userTrees = { list: [] };
   var treeWithNodes = {}; //will contain 1 tree with its question nodes

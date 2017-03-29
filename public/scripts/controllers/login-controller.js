@@ -34,9 +34,13 @@ app.controller('LoginController', function($firebaseAuth, $location) {
       });
   };
 
+  self.viewGlobals = function() {
+    $location.url('/global');
+  };
+
   // This code runs when the user logs out
   self.logOut = function() {
-    auth.$signOut().then(function(){
+    auth.$signOut().then(function() {
       console.log('Logging the user out!');
       $location.url('/login');
     });

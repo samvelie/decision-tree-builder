@@ -12,10 +12,10 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
 
   //this controller is for editing and creating a new tree. The params is empty on create.
   if(typeof treeId == 'undefined') {
-    console.log('treeID is UNDEFINED');
+    console.log('treeId is UNDEFINED');
     self.newTree = {treeName:''};
   } else {
-    console.log('treeID seems OK:', treeId);
+    console.log('treeId seems OK:', treeId);
       getTreeEditInfo(treeId);
 
   }
