@@ -10,6 +10,10 @@
   </span>
 </div>
 
+<div class="container text-center" ng-if="tvc.nodeInfo.node[0].tree_end">
+  <p>[Tree End.]</p>
+</div>
+
 <div class="container text-center" ng-if="tvc.nodeInfo.node[0].id != tvc.nodeInfo.starting.id">
   <button class= "btn back" ng-click="tvc.previousQuestion()"><img src="../../styling/fonts/glyphicon-arrow-left.png" alt="previous question"></button>
 </div>

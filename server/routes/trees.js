@@ -271,7 +271,7 @@ router.get('/:id/options/:nodeId', function(req,res) {
         console.log('error completing query for options on node:', err);
         res.sendStatus(500);
       } else {
-        console.log(optionsResult.rows);
+        console.log('checking for followUpNodes');
 
         var sqlCounter = 0; //this counter determines that the database will be queried again if > 0
         var pgQueryString = 'nodes.id=$1'; // if sqlCounter>1, this string will look like nodes.id=$1 OR nodes.id=$2...
@@ -297,7 +297,7 @@ router.get('/:id/options/:nodeId', function(req,res) {
                 console.log('error completing query for follow up nodes on options:', err);
                 res.sendStatus(500);
               } else {
-                console.log('got followUpNodes:', followUpNodesResult.rows);
+                console.log('got followUpNodes');
                 res.send([optionsResult.rows, followUpNodesResult.rows]);
               }
             }); //end client.query for getting follow up nodes
