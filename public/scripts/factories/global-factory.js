@@ -34,27 +34,27 @@ app.factory('GlobalFactory', ['$http', function($http) {
         });
         }
 
-      for (var i = 0; i < nodeInfoArray.length-1; i++) {
-        console.log(nodeInfoArray[i].nodeId);
-        if(nodeInfoArray[i].nodeId==nodeInfoArray[i+1].nodeId) {
-          nodeInfoArray.splice(i,1);
+      for (var j = 0; j < nodeInfoArray.length-1; j++) {
+        console.log(nodeInfoArray[j].nodeId);
+        if(nodeInfoArray[j].nodeId==nodeInfoArray[j+1].nodeId) {
+          nodeInfoArray.splice(j,1);
         }
       }
 
-      for (var i = 0; i < nodeInfoArray.length; i++) {
-        nodeInfoArray[i].options = [];
+      for (var k = 0; k < nodeInfoArray.length; k++) {
+        nodeInfoArray[k].options = [];
       }
 
 
-      for (var i = 0; i < response.data.length; i++) {
-           for (var j = 0; j < nodeInfoArray.length; j++) {
-             if (nodeInfoArray[j].nodeId==response.data[i].from_node_id) {
-               nodeInfoArray[j].options.push({
-                 optionId: response.data[i].optionId,
-                 text: response.data[i].response_text,
-                 fromId: response.data[i].from_node_id,
-                 toId: response.data[i].to_node_id
-               })
+      for (var l = 0; l < response.data.length; l++) {
+           for (var m = 0; m < nodeInfoArray.length; m++) {
+             if (nodeInfoArray[m].nodeId==response.data[l].from_node_id) {
+               nodeInfoArray[m].options.push({
+                 optionId: response.data[l].optionId,
+                 text: response.data[l].response_text,
+                 fromId: response.data[l].from_node_id,
+                 toId: response.data[l].to_node_id
+               });
              }
            }
 
@@ -62,10 +62,9 @@ app.factory('GlobalFactory', ['$http', function($http) {
 
 
         console.log(nodeInfoArray);
-        // console.log(nodeResponsesArray);
 
         freeTreeComplete.nodeInfo = nodeInfoArray;
-        // freeTreeComplete.responseInfo = nodeResponsesArray;
+
 
     });
   }

@@ -12,6 +12,7 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
       getTrees();
     } else {
       console.log('Not logged in or not authorized.');
+      getTrees();
     }
   });
 

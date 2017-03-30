@@ -21,8 +21,8 @@ app.config(['$routeProvider', function($routeProvider) {
       })
       .when ('/view/:id', {
           templateUrl: '/views/tree-viewer.html',
-          controller: 'TreeViewController',
-          controllerAs: 'tvc'
+          controller: 'LoginController',
+          controllerAs: 'lc'
       })
       .when ('/edit/:treeId/:nodeId', {
           templateUrl: '/views/node-editor.html',
@@ -35,7 +35,7 @@ app.config(['$routeProvider', function($routeProvider) {
           controllerAs: 'glc'
       })
       .when ('/global/:id', {
-          templateUrl: '/views/global-viewer.html',
+          templateUrl: '/views/templates/global-viewer.html',
           controller: 'GlobalViewController',
           controllerAs: 'gvc'
       })

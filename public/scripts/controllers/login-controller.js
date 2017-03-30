@@ -5,14 +5,20 @@ app.controller('LoginController', ['TreeFactory', '$firebaseAuth', '$location', 
   self.pageUrl = $location.$$url; //variable to hide/show the navbar
   console.log(self.pageUrl);
 
-  //want to set a variable, accessible by all views that indicates the user is logged in, so the login/logout buttons appear dynamically
-  //may need to bring in the factory dependency for this
-
   self.loggedIn = TreeFactory.loggedIn;
 
   // This code runs whenever the user logs in
   self.logIn = function() {
-    console.log('login clicked');
+    console.log('login clicked in navbar');
+    auth.$signInWithPopup("google").then(function(firebaseUser) {
+      console.log("Firebase Authenticated as: ", firebaseUser.user.displayName);
+    }).catch(function(error) {
+      console.log("Authentication failed: ", error);
+      });
+  };
+
+  self.goToHQFromLogin = function () {
+    console.log('going to HQ after login');
     auth.$signInWithPopup("google").then(function(firebaseUser) {
       console.log("Firebase Authenticated as: ", firebaseUser.user.displayName);
       $location.url('/hq');
@@ -38,7 +44,6 @@ app.controller('LoginController', ['TreeFactory', '$firebaseAuth', '$location', 
   self.logOut = function() {
     auth.$signOut().then(function() {
       console.log('Logging the user out!');
-      $location.url('/login');
     });
   };
 

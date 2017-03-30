@@ -51,13 +51,12 @@ var tokenDecoder = function(req, res, next){
       // If the id_token isn't right, you end up in this callback function
       // Here we are returning a forbidden error
       console.log('User token could not be verified');
-      // to use this auth route for non-auth'd requests:
-      // req.decodedToken = null;
-      // next();
+      res.sendStatus(403);
     });
   } else {
     // Seems to be hit when chrome makes request for map files
     // Will also be hit when user does not send back an idToken in the header
+    console.log('something went wrong decoding token');
     res.sendStatus(403);
   }
 };

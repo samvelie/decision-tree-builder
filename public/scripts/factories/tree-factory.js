@@ -8,11 +8,11 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
 
   auth.$onAuthStateChanged(function(firebaseUser) {
 
-  // Check directly if firebaseUser is null
-  loggedIn.value = firebaseUser !== null;
-  if (loggedIn.value) {
-    console.log('user is logged in');
-  }
+    // Check directly if firebaseUser is null
+    loggedIn.value = firebaseUser !== null;
+    if (loggedIn.value) {
+      console.log('user is logged in');
+    }
   });
 
 
@@ -37,15 +37,17 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
+      userTrees.list = [];
+      treeWithNodes.treeInfo = [];
       console.log('Can not post to database when not logged in.');
     }
   }
 
   //add a node to tree
   /**
-    * @function sends new node data to server, updates current node with results
-    * @param {String} nodeContent text content for this node
-    * @param {String} treeId DB id for this tree
+  * @function sends new node data to server, updates current node with results
+  * @param {String} nodeContent text content for this node
+  * @param {String} treeId DB id for this tree
   **/
   function addNode(nodeContent, treeId, fromResponseId, currentNodeId) {
     console.log('addNode running with ' + nodeContent + ' on treeId: ' + treeId);
@@ -61,16 +63,16 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('node created', response.data);
-            if (fromResponseId) {
-              //update option that was connected
-              console.log('fromResponseId passed as', fromResponseId);
-              var toNodeId =  response.data[0].id;
-              updateResponse(fromResponseId, toNodeId, treeId, currentNodeId);
+          console.log('node created', response.data);
+          if (fromResponseId) {
+            //update option that was connected
+            console.log('fromResponseId passed as', fromResponseId);
+            var toNodeId =  response.data[0].id;
+            updateResponse(fromResponseId, toNodeId, treeId, currentNodeId);
 
-            } else {
-              getTreeWithNodes(treeId);
-            }
+          } else {
+            getTreeWithNodes(treeId);
+          }
 
         });
       });
@@ -94,8 +96,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('option on node created', response.data);
-            getNodeWithResponses(treeId, nodeId);
+          console.log('option on node created', response.data);
+          getNodeWithResponses(treeId, nodeId);
         });
       });
     } else {
@@ -106,24 +108,24 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
   //get trees for "My Trees"
   function getUserTrees() {
     console.log('getUserTrees running');
-      var firebaseUser = auth.$getAuth();
-      if(firebaseUser) {
-        firebaseUser.getToken().then(function(idToken){
-          $http({
-            method: 'GET',
-            url: '/trees',
-            headers: {
-              id_token: idToken
-            }
-          }).then(function(response){
-              console.log('factory got trees: ', response.data);
-              userTrees.list = response.data;
-          });
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'GET',
+          url: '/trees',
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          console.log('factory got trees: ', response.data);
+          userTrees.list = response.data;
         });
-      } else {
-        console.log('Not logged in or not authorized.');
-        userTrees.list = [];
-      }
+      });
+    } else {
+      console.log('Not logged in or not authorized.');
+      userTrees.list = [];
+    }
   }
 
   //gets a specific tree and its connected nodes
@@ -139,9 +141,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('getTreeWithNodes back with', response.data);
-            treeWithNodes.treeInfo = response.data;
-            getNodesForTree(treeId, idToken);
+          console.log('getTreeWithNodes back with', response.data);
+          treeWithNodes.treeInfo = response.data;
+          getNodesForTree(treeId, idToken);
         });
       });
     } else {
@@ -159,8 +161,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         id_token: idToken
       }
     }).then(function(response) {
-        treeWithNodes.nodeInfo = response.data;
-        console.log('getNodesForTree back with', treeWithNodes);
+      treeWithNodes.nodeInfo = response.data;
+      console.log('getNodesForTree back with', treeWithNodes);
     });
   }
 
@@ -225,9 +227,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         id_token: idToken
       }
     }).then(function(response) {
-        nodeWithResponses.responses = response.data[0];
-        nodeWithResponses.followUpQuestions = response.data[1];
-        console.log(nodeWithResponses);
+      nodeWithResponses.responses = response.data[0];
+      nodeWithResponses.followUpQuestions = response.data[1];
+      console.log(nodeWithResponses);
     });
   }
 
@@ -319,8 +321,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('response option updated:', response);
-            getNodeWithResponses(treeId, currentNodeId);
+          console.log('response option updated:', response);
+          getNodeWithResponses(treeId, currentNodeId);
         });
       });
     }
@@ -339,8 +341,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('tree deleted', response);
-            getUserTrees();
+          console.log('tree deleted', response);
+          getUserTrees();
         });
       });
     }
@@ -359,9 +361,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('node deleted from tree', response.data[0].tree_id);
-            treeId = response.data[0].tree_id;
-            getTreeWithNodes(treeId);
+          console.log('node deleted from tree', response.data[0].tree_id);
+          treeId = response.data[0].tree_id;
+          getTreeWithNodes(treeId);
         });
       });
     }
@@ -380,8 +382,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
             id_token: idToken
           }
         }).then(function(response){
-            console.log('response option deleted', response.data);
-            getNodeWithResponses(treeId, nodeId);
+          console.log('response option deleted', response.data);
+          getNodeWithResponses(treeId, nodeId);
         });
       });
     }

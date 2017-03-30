@@ -1,0 +1,13 @@
+<h1>Free Tree Viewer</h1>
+
+<h2>Tree Name: {{gvc.fullTree.name}}</h2>
+
+<p>Node Info: {{gvc.fullTree.nodeInfo[gvc.nodeIndex].content}}</p>
+
+<span ng-repeat="option in gvc.fullTree.nodeInfo[gvc.nodeIndex].options">
+  <button type="button" ng-click="gvc.setDisplay(option.toId)">{{option.text}}</button>
+</span>
+
+<div class="container text-center" ng-if="gvc.indexPath.length>0">
+  <button class= "btn back" ng-click="gvc.goBack()"><img src="../../styling/fonts/glyphicon-arrow-left.png" alt="previous question"></button>
+</div>
