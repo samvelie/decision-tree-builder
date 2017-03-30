@@ -1,8 +1,20 @@
 app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function($firebaseAuth, $http, GlobalFactory) {
   var auth = $firebaseAuth();
   var userTrees = { list: [] };
+  var loggedIn = {}; //holds a value of true or false
   var treeWithNodes = {}; //will contain 1 tree with its question nodes
   var nodeWithResponses = {}; //will contain 1 question node with response options and follow up questions if they exist
+
+
+  auth.$onAuthStateChanged(function(firebaseUser) {
+
+  // Check directly if firebaseUser is null
+  loggedIn.value = firebaseUser !== null;
+  if (loggedIn.value) {
+    console.log('user is logged in');
+  }
+  });
+
 
   //add a user tree
   function addTree(treeObject) {
@@ -110,6 +122,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       } else {
         console.log('Not logged in or not authorized.');
+        userTrees.list = [];
       }
   }
 
@@ -172,6 +185,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       });
     } else {
       console.log('Not logged in or not authorized.');
+      nodeWithResponses.node = [];
+      nodeWithResponses.starting = [];
     }
   }
 
@@ -194,6 +209,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       });
     } else {
       console.log('Not logged in or not authorized.');
+      nodeWithResponses.node = [];
+      nodeWithResponses.responses = [];
+      nodeWithResponses.followUpQuestions = [];
     }
   }
 
@@ -370,6 +388,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
   }
 
   return {
+    loggedIn: loggedIn,
     addTree: addTree,
     addNode: addNode,
     addResponse: addResponse,

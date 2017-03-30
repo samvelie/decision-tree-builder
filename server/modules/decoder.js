@@ -9,7 +9,7 @@ admin.initializeApp({
   databaseURL: "https://decision-trees.firebaseio.com"
 });
 
-// runs to deal with all incoming requests 
+// runs to deal with all incoming requests
 var tokenDecoder = function(req, res, next){
   if (req.headers.id_token) {
     admin.auth().verifyIdToken(req.headers.id_token).then(function(decodedToken) {
@@ -51,7 +51,9 @@ var tokenDecoder = function(req, res, next){
       // If the id_token isn't right, you end up in this callback function
       // Here we are returning a forbidden error
       console.log('User token could not be verified');
-      res.sendStatus(403);
+      // to use this auth route for non-auth'd requests:
+      // req.decodedToken = null;
+      // next();
     });
   } else {
     // Seems to be hit when chrome makes request for map files

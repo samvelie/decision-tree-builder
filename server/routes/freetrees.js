@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 router.get('/:treeId', function(req, res) {
   var treeId = req.params.treeId;
   pool.connect(function(err, client, done) {
-      client.query('SELECT trees.tree_name, trees.creator_id, nodes.id AS "nodeId", nodes.content, nodes.tree_end, options.id AS "optionId", options.from_node_id, options.to_node_id FROM trees LEFT OUTER JOIN nodes ON trees.id=nodes.tree_id LEFT OUTER JOIN options ON nodes.id=options.from_node_id WHERE trees.id=$1 AND trees.public=TRUE;',
+      client.query('SELECT trees.tree_name, trees.creator_id, nodes.id AS "nodeId", nodes.content, nodes.tree_end, options.id AS "optionId", options.response_text, options.from_node_id, options.to_node_id FROM trees LEFT OUTER JOIN nodes ON trees.id=nodes.tree_id LEFT OUTER JOIN options ON nodes.id=options.from_node_id WHERE trees.id=$1 AND trees.public=TRUE ORDER BY nodes.id;',
       [treeId],
       function(err, result) {
        done();

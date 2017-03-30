@@ -24,9 +24,6 @@ app.controller('TreeViewController', ['TreeFactory', '$firebaseAuth', '$routePar
     TreeFactory.getStartingNodeWithResponses(treeId);
   }
 
-  //this below code needs to be functionalized and moved to the factory
-
-
   //on click of option
   self.getNextQuestion = function(previousNodeId, nextNodeId) {
     console.log('going from nodeId ' + previousNodeId + ' to ' + nextNodeId);

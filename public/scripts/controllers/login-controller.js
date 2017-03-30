@@ -1,4 +1,4 @@
-app.controller('LoginController', function($firebaseAuth, $location) {
+app.controller('LoginController', ['TreeFactory', '$firebaseAuth', '$location', function(TreeFactory, $firebaseAuth, $location) {
   var auth = $firebaseAuth();
   var self = this;
 
@@ -8,11 +8,7 @@ app.controller('LoginController', function($firebaseAuth, $location) {
   //want to set a variable, accessible by all views that indicates the user is logged in, so the login/logout buttons appear dynamically
   //may need to bring in the factory dependency for this
 
-  auth.$onAuthStateChanged(function(firebaseUser) {
-
-  // Check directly if firebaseUser is null
-  self.loggedIn = firebaseUser !== null;
-  });
+  self.loggedIn = TreeFactory.loggedIn;
 
   // This code runs whenever the user logs in
   self.logIn = function() {
@@ -46,4 +42,4 @@ app.controller('LoginController', function($firebaseAuth, $location) {
     });
   };
 
-});
+}]);

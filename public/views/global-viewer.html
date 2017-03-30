@@ -1,0 +1,7 @@
+<h1>Free Tree Viewer</h1>
+
+<h2>Tree Name: {{gvc.fullTree.name}}</h2>
+
+<p>Node Info: {{gvc.fullTree.nodeInfo[gvc.nodeIndex].content}}</p>
+
+<p ng-repeat="option in gvc.fullTree.nodeInfo[gvc.nodeIndex].options">{{option.text}}</p>

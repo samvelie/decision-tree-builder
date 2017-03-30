@@ -30,9 +30,14 @@ app.config(['$routeProvider', function($routeProvider) {
           controllerAs: 'nec'
       })
       .when ('/global', {
-          templateUrl: '/views/global-view.html',
+          templateUrl: '/views/global-list-view.html',
           controller: 'GlobalListController',
           controllerAs: 'glc'
+      })
+      .when ('/global/:id', {
+          templateUrl: '/views/global-viewer.html',
+          controller: 'GlobalViewController',
+          controllerAs: 'gvc'
       })
       .otherwise ( {
           redirectTo: 'login'
