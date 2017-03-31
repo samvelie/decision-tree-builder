@@ -2,14 +2,13 @@ app.factory('GlobalFactory', ['$http', function($http) {
   var globalTrees ={};
   var freeTreeComplete = {};
 
-  getTreeList();
 
   function getTreeList() {
     $http({
       method: 'GET',
       url: '/global'
     }).then(function(response) {
-      console.log(response.data);
+      console.log('global get', response.data);
       globalTrees.list = response.data;
     });
   }

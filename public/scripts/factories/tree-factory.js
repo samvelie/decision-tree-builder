@@ -15,6 +15,11 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
     }
   });
 
+  function clearData() {
+    userTrees = { list: [] };
+    treeWithNodes = {};
+    nodeWithResponses = {};
+  }
 
   //add a user tree
   function addTree(treeObject) {
@@ -37,9 +42,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
-      userTrees.list = [];
-      treeWithNodes.treeInfo = [];
-      console.log('Can not post to database when not logged in.');
+      clearData();
+      console.log('Cannot modify database when not logged in.');
     }
   }
 
@@ -77,7 +81,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
-      console.log('Can not post to database when not logged in.');
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -101,7 +106,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
-      console.log('Can not post to database when not logged in.');
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -124,7 +130,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       });
     } else {
       console.log('Not logged in or not authorized.');
-      userTrees.list = [];
+      clearData();
     }
   }
 
@@ -148,6 +154,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       });
     } else {
       console.log('Not logged in or not authorized.');
+      clearData();
     }
   }
 
@@ -187,8 +194,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       });
     } else {
       console.log('Not logged in or not authorized.');
-      nodeWithResponses.node = [];
-      nodeWithResponses.starting = [];
+      clearData();
     }
   }
 
@@ -211,9 +217,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       });
     } else {
       console.log('Not logged in or not authorized.');
-      nodeWithResponses.node = [];
-      nodeWithResponses.responses = [];
-      nodeWithResponses.followUpQuestions = [];
+      clearData();
     }
   }
 
@@ -254,10 +258,12 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
           console.log(response.data);
           //now make sure we have current info on DOM
           getTreeWithNodes(treeId);
+          GlobalFactory.getTreeList();
         });
       });
     } else {
-      console.log('Can not post to database when not logged in.');
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -282,7 +288,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
-      console.log('Can not post to database when not logged in.');
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -308,7 +315,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
-      console.log('Can not post to database when not logged in.');
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -333,7 +341,8 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         });
       });
     } else {
-      console.log('Can not post to database when not logged in.');
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
 
   }
@@ -372,8 +381,12 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
         }).then(function(response){
           console.log('tree deleted', response);
           getUserTrees();
+          GlobalFactory.getTreeList();
         });
       });
+    } else {
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -395,6 +408,9 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
           getTreeWithNodes(treeId);
         });
       });
+    } else {
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
@@ -415,11 +431,15 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
           getNodeWithResponses(treeId, nodeId);
         });
       });
+    } else {
+      console.log('Cannot modify database when not logged in.');
+      clearData();
     }
   }
 
   return {
     loggedIn: loggedIn,
+    clearData: clearData,
     addTree: addTree,
     addNode: addNode,
     addResponse: addResponse,

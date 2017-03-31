@@ -1,7 +1,7 @@
 app.controller('GlobalListController', ['GlobalFactory', function(GlobalFactory) {
   var self = this;
 
-  self.message = "Hi!";
+  GlobalFactory.getTreeList();
   self.globalTrees = GlobalFactory.freeTreeList;
-  console.log('something');
+  console.log('GlobalListController activated');
 }]);

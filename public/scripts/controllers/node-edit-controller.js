@@ -5,6 +5,7 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
   var thisTreeId = $routeParams.treeId;
   var thisNodeId = $routeParams.nodeId;
   self.nodeInfo = TreeFactory.nodeWithResponses;
+  self.treeNodes = TreeFactory.treeWithNodes;
 
   //display for the question node being edited
 

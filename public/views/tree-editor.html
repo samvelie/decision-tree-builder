@@ -1,9 +1,9 @@
 <h1>Tree Editor</h1>
-<div ng-if="tec.treeData.treeInfo.length == 0">
+<div ng-if="!tec.treeData.treeInfo">
   <input type= "text" ng-model="tec.newTree.treeName" class="form-control input-lg" placeholder="Enter New Tree Name">
   <button class="btn btn-primary" ng-click="tec.saveTreeName('new', tec.newTree)">Save</button>
 </div>
-<div ng-if="tec.treeData.treeInfo.length != 0">
+<div ng-if="tec.treeData.treeInfo">
   <input type= "text" class="form-control input-lg" ng-model="tec.treeData.treeInfo[0].tree_name">
   <button class="btn btn-info" ng-click="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">Update Name</button>
 </div>
@@ -17,7 +17,7 @@
  </thead>
  <tbody>
    <tr ng-repeat="node in tec.treeData.nodeInfo">
-     <td ng-class="{'tree-end': {{node.tree_end}}}" onaftersave="tec.updateNodeName(node)" editable-text="node.content">
+     <td ng-class="{'tree-end': {{node.tree_end}}}" onaftersave="tec.updateNodeName(node)" editable-textarea="node.content">
        {{node.content}}
      </td>
      <td>
@@ -29,12 +29,13 @@
    </tr>
    <tr>
      <td>
-       <input type="text" placeholder="Add New Question Node" class="form-control input-sm" ng-model="tec.newNode">
+       <form class="form-inline">
+         <textarea placeholder="Add New Question Node" wrap="soft" class="form-control input-md" ng-model="tec.newNode"></textarea>
+         <button type="submit" name="button" class= "btn btn-primary" ng-click="tec.addNodeToTree(tec.newNode)">Add</button>
+       </form>
+
      </td>
 
-     <td>
-       <button type="button" name="button" class= "btn btn-primary" ng-click="tec.addNodeToTree(tec.newNode)">Add</button>
-     </td>
    </tr>
  </tbody>
 </table>

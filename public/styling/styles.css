@@ -4,6 +4,9 @@ body {
   font-family: 'Muli', sans-serif;
 }
 
+td.editable-textarea {
+  width:100%;
+}
 td.editable-click {
     color: #694b62;
     border-bottom: dashed 1px black;
@@ -13,9 +16,14 @@ td.editable-click:hover {
     border-bottom-color: #d3a7fa;
 }
 
+.tree-listing h3 {
+  margin-top: 0px;
+}
+
 .tree-listing {
   background-color: #e2eedd;
   border-radius: 5px;
+  margin:10px 0 10px 0;
 }
 
 .node-editor {
@@ -59,6 +67,7 @@ td{
 .tree-list-container {
   border: 1px solid black;
   border-radius: 5px;
+  margin:0;
 }
 
 .tree-end {
@@ -70,6 +79,7 @@ td{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  font-size: x-large;
   outline: none;
   border: 0;
   background: transparent;
@@ -81,7 +91,7 @@ td{
 }
 
 .login {
-  color: blue;
+  color: #337ab7;
   background: transparent;
   border: 0;
   margin-left: 10px;

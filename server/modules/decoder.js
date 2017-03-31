@@ -12,6 +12,7 @@ admin.initializeApp({
 // runs to deal with all incoming requests
 var tokenDecoder = function(req, res, next){
   if (req.headers.id_token) {
+    console.log('req.headers.idtoken', req.headers.id_token);
     admin.auth().verifyIdToken(req.headers.id_token).then(function(decodedToken) {
       // Adding the decodedToken to the request so that downstream processes can use it
       req.decodedToken = decodedToken;
@@ -24,9 +25,9 @@ var tokenDecoder = function(req, res, next){
             console.log('error connecting to db on user query:', err);
             res.sendStatus(500);
           } else {
-              pool.connect(function(err,client,done) {
+              pool.connect(function(err,client2,done) {
                 if(userQueryResult.rowCount === 0) { //if user does not exist, add them to user list, keep id
-                  client.query('INSERT INTO users (email) VALUES ($1) RETURNING id;', [userEmail], function(err, result){
+                  client2.query('INSERT INTO users (email) VALUES ($1) RETURNING id;', [userEmail], function(err, result){
                     done();
                     if(err) {
                       console.log('error connecting to db on user add:', err);
@@ -56,7 +57,7 @@ var tokenDecoder = function(req, res, next){
   } else {
     // Seems to be hit when chrome makes request for map files
     // Will also be hit when user does not send back an idToken in the header
-    console.log('something went wrong decoding token');
+    console.log('something went wrong decoding token', req.headers);
     res.sendStatus(403);
   }
 };

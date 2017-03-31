@@ -1,14 +1,10 @@
-<h1>Free Tree Viewer</h1>
-
-
-
 <div class="container text-center">
   <h2 ng-class= "{'tree-end': gvc.fullTree.nodeInfo[gvc.nodeIndex].options.length==0 }">{{gvc.fullTree.nodeInfo[gvc.nodeIndex].content}}</h2>
 </div>
 
 <div class="container text-center">
 <span ng-repeat="option in gvc.fullTree.nodeInfo[gvc.nodeIndex].options">
-  <button class="btn" ng-click="gvc.setDisplay(option.toId)">{{option.text}}</button>
+  <button class="btn btn-lg" ng-click="gvc.setDisplay(option.toId)">{{option.text}}</button>
 </span>
 </div>
 

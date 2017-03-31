@@ -43,6 +43,7 @@ app.controller('LoginController', ['TreeFactory', '$firebaseAuth', '$location', 
   // This code runs when the user logs out
   self.logOut = function() {
     auth.$signOut().then(function() {
+      TreeFactory.clearData();
       console.log('Logging the user out!');
       $location.url('/login');
     });

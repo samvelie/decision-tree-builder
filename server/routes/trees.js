@@ -256,46 +256,6 @@ router.post('/:nodeId/options', function(req, res) {
   });//end pool.connect
 });//end router.post for options
 
-//updating an option's response_text
-router.put('/options/:optionId', function(req,res) {
-  var updatedText = req.body.response_text;
-  var optionId = req.params.optionId;
-  console.log('In put with', updatedText);
-  pool.connect(function(err, client, done) {
-       client.query('UPDATE options SET response_text=$1 WHERE id=$2;',
-       [updatedText, optionId],
-       function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating option in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating option text
-  });//end pool.connect
-});
-
-//updating an option with the "to" node
-router.put('/options/:optionId/:toNodeId', function(req,res) {
-  var optionId = req.params.optionId;
-  var toNodeId = req.params.toNodeId;
-  console.log('updating ' + optionId + ' with toNodeId ' + toNodeId);
-  pool.connect(function(err, client, done) {
-       client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;',
-       [toNodeId, optionId],
-       function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating option in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating option
-  });//end pool.connect
-});// end router.put for adding to_node_id to option
-
 //getting options given specific node & getting follow up nodes if an option has a "to_node_id"
 router.get('/:id/options/:nodeId', function(req,res) {
   var treeId = req.params.id; //not currently necessary, leaving here in case auth does not protect
@@ -350,6 +310,46 @@ router.get('/:id/options/:nodeId', function(req,res) {
     });//end client.query for getting options
   });//end pool.connect
 });//end router.get for options
+
+//updating an option's response_text
+router.put('/options/:optionId', function(req,res) {
+  var updatedText = req.body.response_text;
+  var optionId = req.params.optionId;
+  console.log('In put with', updatedText);
+  pool.connect(function(err, client, done) {
+       client.query('UPDATE options SET response_text=$1 WHERE id=$2;',
+       [updatedText, optionId],
+       function(err, result) {
+       done();
+       if(err) {
+         console.log('error updating option in db; query error:', err);
+         res.sendStatus(500);
+       } else {
+         res.sendStatus(200);
+       }
+     });//end query for updating option text
+  });//end pool.connect
+});
+
+//updating an option with the "to" node
+router.put('/options/:optionId/:toNodeId', function(req,res) {
+  var optionId = req.params.optionId;
+  var toNodeId = req.params.toNodeId;
+  console.log('updating ' + optionId + ' with toNodeId ' + toNodeId);
+  pool.connect(function(err, client, done) {
+       client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;',
+       [toNodeId, optionId],
+       function(err, result) {
+       done();
+       if(err) {
+         console.log('error updating option in db; query error:', err);
+         res.sendStatus(500);
+       } else {
+         res.sendStatus(200);
+       }
+     });//end query for updating option
+  });//end pool.connect
+});// end router.put for adding to_node_id to option
 
 //removes option
 router.delete('/options/:optionId', function(req,res) {

@@ -9,6 +9,7 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
   self.treeData = TreeFactory.treeWithNodes;
 
   console.log("$routeParams.id:", $routeParams.id);
+  console.log(self.treeData);
 
   //this controller is for editing and creating a new tree. The params is empty on create.
   if(typeof treeId == 'undefined') {
@@ -42,6 +43,7 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     console.log('treeditor addNodeToTree using:', nodeContent);
     treeId =  self.treeData.treeInfo[0].id;
     TreeFactory.addNode(nodeContent, treeId);
+    self.newNode = '';
   };
 
   self.updateNodeName = function(node) {

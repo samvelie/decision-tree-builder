@@ -13,16 +13,16 @@
   </thead>
   <tbody>
     <tr ng-repeat= "response in nec.nodeInfo.responses">
-      <td onaftersave="nec.editResponseText(response)" editable-text="response.response_text">{{response.response_text}}</td>
+      <td onaftersave="nec.editResponseText(response)" editable-textarea="response.response_text">{{response.response_text}}</td>
       <td>
         <button type="button" class="btn btn-danger" ng-click="nec.deleteResponse(response.id)">X</button>
       </td>
-      <td> --> </td>
+      <td> <span class="glyphicon glyphicon-triangle-right" ></span></td>
       <td>
         <!-- If the response already has to_node_id, this field should have the existing follow up question-->
-        <input ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="text" class="form-control" ng-model="nec.nodeInfo.followUpQuestions[$index].content">
+        <textarea ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="text" class="form-control" ng-model="nec.nodeInfo.followUpQuestions[$index].content"></textarea>
 
-        <input ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="text" class="form-control" ng-model="nec.followUpQuestion[$index]" placeholder="follow-up node">
+        <textarea ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="text-area" class="form-control" ng-model="nec.followUpQuestion[$index]" placeholder="follow-up node"></textarea>
       </td>
       <td>
         <!-- If getNextQuestion function pulls data, this button should update that data instead of adding node -->
@@ -31,16 +31,38 @@
         <button ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn btn-info" ng-click="nec.addNodeToResponse(nec.followUpQuestion[$index], response.id)">Save</button>
       </td>
     </tr>
+
     <tr>
       <td>
-        <input type="text" class="form-control" ng-model="nec.newResponse">
-      </td>
-      <td>
-        <button type="button" class="btn btn-default" ng-click="nec.addResponse(nec.newResponse)">Add Response Option</button>
+        <form class="form-inline" ng-submit="nec.addResponse(nec.newResponse)">
+          <input type="text" class="form-control" ng-model="nec.newResponse">
+          <button type="submit" class="btn btn-default">Add Response Option</button>
+        </form>
+
       </td>
     </tr>
   </tbody>
 </table>
 
 
-<button type="button" ng-click="nec.treeSave()">Save Tree Button</button>
+
+<!-- <select name="example">
+    <option value="">Custom</option>
+    <option value="A">A</option>
+    <option value="B">B</option>
+</select>
+<input type="text" name="other">
+
+
+<input list="testList" type="" ng-model="nec.selectedNode" ng-change="LoadSessionData(SelectedDoctor)" />
+<datalist id="testList">
+    <option ng-repeat="x1 in names" value="{{x1.drname}}">
+</datalist>
+
+//data for ng-repeat
+    $scope.names=[{'drname':'Dr.Test1'},{'drname':'Dr.Test2'},{'drname':'Dr.Test3'}]
+
+    $scope.LoadSessionData = function(val) {
+//console log
+        console.log(val);
+} -->

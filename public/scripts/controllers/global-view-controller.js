@@ -22,7 +22,7 @@ app.controller('GlobalViewController', ['GlobalFactory', '$routeParams', functio
 
   self.goBack = function() {
     self.nodeIndex = self.indexPath.pop();
-  }
+  };
 
 
 }]);
