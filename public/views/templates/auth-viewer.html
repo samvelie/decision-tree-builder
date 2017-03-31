@@ -1,7 +1,7 @@
 <h1>Tree Viewer</h1>
 
 <div class="container text-center">
-  <h2 ng-class= "{'tree-end': tvc.nodeInfo.node[0].tree_end}">{{tvc.nodeInfo.node[0].content}}</h2>
+  <h2 ng-class= "{'tree-end': tvc.nodeInfo.responses.length==0}">{{tvc.nodeInfo.node[0].content}}</h2>
 </div>
 
 <div class="container text-center" ng-if="!tvc.nodeInfo.node[0].tree_end">
@@ -10,7 +10,7 @@
   </span>
 </div>
 
-<div class="container text-center" ng-if="tvc.nodeInfo.node[0].tree_end">
+<div class="container text-center" ng-if="tvc.nodeInfo.responses.length==0">
   <p>[Tree End.]</p>
 </div>
 

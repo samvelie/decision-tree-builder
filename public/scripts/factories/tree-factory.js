@@ -228,8 +228,12 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
       }
     }).then(function(response) {
       nodeWithResponses.responses = response.data[0];
-      nodeWithResponses.followUpQuestions = response.data[1];
-      console.log(nodeWithResponses);
+      if (response.data.length>1) {
+        nodeWithResponses.followUpQuestions = response.data[1];
+      } else {
+        nodeWithResponses.followUpQuestions = [];
+      }
+      console.log('back with nodeWithResponses', nodeWithResponses);
     });
   }
 
@@ -308,6 +312,31 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
     }
   }
 
+  //
+  function editResponseText(responseObject, treeId) {
+    var responseId = responseObject.id;
+    var nodeId = responseObject.from_node_id;
+    console.log('editResponseText running with:', responseObject);
+    var firebaseUser = auth.$getAuth();
+    if(firebaseUser) {
+      firebaseUser.getToken().then(function(idToken){
+        $http({
+          method: 'PUT',
+          url: '/trees/options/' + responseId,
+          data: responseObject,
+          headers: {
+            id_token: idToken
+          }
+        }).then(function(response){
+          console.log(response.data);
+          getNodeWithResponses(treeId, nodeId);
+        });
+      });
+    } else {
+      console.log('Can not post to database when not logged in.');
+    }
+
+  }
   //update a response with the "to_node_id"
   function updateResponse(responseId, toNodeId, treeId, currentNodeId) {
     console.log('updating responseId ' + responseId + ' with toNodeId ' + toNodeId);
@@ -403,6 +432,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
     nodeWithResponses: nodeWithResponses,
     editUserTree: editUserTree,
     toggleTreeStatus: toggleTreeStatus,
+    editResponseText: editResponseText,
     editNode: editNode,
     removeTree: removeTree,
     removeNode: removeNode,

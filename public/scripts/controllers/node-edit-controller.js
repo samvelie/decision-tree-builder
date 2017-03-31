@@ -37,17 +37,23 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
   //add options (post)
   self.addResponse = function(text) {
     TreeFactory.addResponse(text, thisTreeId, thisNodeId);
+    self.newResponse = '';
   };
 
   //edit options (put)
-
+  self.editResponseText = function(response) {
+    console.log(response);
+    TreeFactory.editResponseText(response, thisTreeId);
+  };
 
   //delete options (delete)
   self.deleteResponse = function(responseId) {
     TreeFactory.removeResponse(responseId, thisTreeId, thisNodeId);
   };
 
-
+  self.treeSave = function() {
+    console.log('saving a tree');
+  };
 
 
 }]);

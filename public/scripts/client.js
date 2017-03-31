@@ -1,4 +1,10 @@
-var app = angular.module('treeApp', ['firebase', 'ngRoute']);
+var app = angular.module('treeApp', ['firebase', 'ngRoute', 'xeditable']);
+
+app.run(function(editableOptions, editableThemes) {
+  editableThemes.bs3.buttonsClass = 'btn-sm';
+  editableThemes.bs3.inputClass = 'input-md';
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
 
 app.config(['$routeProvider', function($routeProvider) {
 
@@ -33,11 +39,6 @@ app.config(['$routeProvider', function($routeProvider) {
           templateUrl: '/views/global-list-view.html',
           controller: 'GlobalListController',
           controllerAs: 'glc'
-      })
-      .when ('/global/:id', {
-          templateUrl: '/views/templates/global-viewer.html',
-          controller: 'GlobalViewController',
-          controllerAs: 'gvc'
       })
       .otherwise ( {
           redirectTo: 'login'

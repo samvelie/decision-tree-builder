@@ -44,6 +44,7 @@ app.controller('LoginController', ['TreeFactory', '$firebaseAuth', '$location', 
   self.logOut = function() {
     auth.$signOut().then(function() {
       console.log('Logging the user out!');
+      $location.url('/login');
     });
   };
 

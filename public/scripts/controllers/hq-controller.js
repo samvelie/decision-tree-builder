@@ -4,6 +4,7 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
 
   self.treeArray = TreeFactory.userTrees;
   self.newTree = {};
+  self.loggedIn = TreeFactory.loggedIn;
 
   //this $onAuthStateChanged helps maintain the page data on reloads, rather than just calling getTrees by itself
   auth.$onAuthStateChanged(function(firebaseUser) {
@@ -15,9 +16,6 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
       getTrees();
     }
   });
-
-  //this page will also call all the publicly available trees in a separate div
-  //does this need to pass through auth at all?
 
   // need to be able to add new trees. Eventually want this process to bring user to different view
   self.addTree = function(treeObject) {

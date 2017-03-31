@@ -1,48 +1,46 @@
 <h1>Node Editor</h1>
 
-<h2>Node: {{nec.nodeInfo.node[0].content}}</h2>
-<table>
+<h2>Editing: {{nec.nodeInfo.node[0].content}}</h2>
+<table class="node-editor">
   <thead>
     <tr>
       <th>Response</th>
-      <th>X</th>
-      <th>Next Node Id</th>
-      <th>Follow Up Question</th>
+      <th>Delete</th>
+      <th>Leads To</th>
+      <th>Follow Up Node</th>
       <th>Save And Follow</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat= "response in nec.nodeInfo.responses">
-      <td>{{response.response_text}}</td>
+      <td onaftersave="nec.editResponseText(response)" editable-text="response.response_text">{{response.response_text}}</td>
       <td>
-        <button type="button" ng-click="nec.deleteResponse(response.id)">X</button>
+        <button type="button" class="btn btn-danger" ng-click="nec.deleteResponse(response.id)">X</button>
       </td>
-      <td>{{response.to_node_id}}</td>
+      <td> --> </td>
       <td>
         <!-- If the response already has to_node_id, this field should have the existing follow up question-->
-        <input ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="text" ng-model="nec.nodeInfo.followUpQuestions[$index].content">
+        <input ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="text" class="form-control" ng-model="nec.nodeInfo.followUpQuestions[$index].content">
 
-        <input ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="text" ng-model="nec.followUpQuestion[$index]" placeholder="follow-up node">
+        <input ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="text" class="form-control" ng-model="nec.followUpQuestion[$index]" placeholder="follow-up node">
       </td>
       <td>
         <!-- If getNextQuestion function pulls data, this button should update that data instead of adding node -->
-        <button ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn" ng-click="nec.updateNodeContent(nec.nodeInfo.followUpQuestions[$index])">Update and Follow Question</button>
+        <button ng-if="nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn btn-warning" ng-click="nec.updateNodeContent(nec.nodeInfo.followUpQuestions[$index])">Update and Follow</button>
 
-        <button ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn" ng-click="nec.addNodeToResponse(nec.followUpQuestion[$index], response.id)">Save</button>
+        <button ng-if="!nec.nodeInfo.followUpQuestions[$index].id" type="button" class="btn btn-info" ng-click="nec.addNodeToResponse(nec.followUpQuestion[$index], response.id)">Save</button>
       </td>
     </tr>
     <tr>
       <td>
-        <input type="text" ng-model="nec.newResponse">
+        <input type="text" class="form-control" ng-model="nec.newResponse">
       </td>
       <td>
-        <button type="button" ng-click="nec.addResponse(nec.newResponse)">+</button>
+        <button type="button" class="btn btn-default" ng-click="nec.addResponse(nec.newResponse)">Add Response Option</button>
       </td>
     </tr>
   </tbody>
 </table>
 
 
-<h4>nodeInfo.responses: {{nec.nodeInfo.responses}}</h4>
-<h4>nodeInfo.followUpQuestions: {{nec.nodeInfo.followUpQuestions}}</h4>
-<button type="button" ng-click="nec.getNodeForEachResponse()">Test Button</button>
+<button type="button" ng-click="nec.treeSave()">Save Tree Button</button>

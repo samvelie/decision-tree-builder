@@ -5,7 +5,7 @@ CREATE TABLE users (
 
 CREATE TABLE trees (
 	id	SERIAL PRIMARY KEY,
-	tree_name VARCHAR(25) NOT NULL,
+	tree_name VARCHAR(44) NOT NULL,
 	creator_id INTEGER REFERENCES users,
 	public BOOLEAN NOT NULL DEFAULT false
 );
@@ -19,7 +19,7 @@ CREATE TABLE nodes (
 
 CREATE TABLE options (
 	id SERIAL PRIMARY KEY,
-	response_text VARCHAR(40),
+	response_text VARCHAR(80),
 	from_node_id INTEGER REFERENCES nodes ON DELETE CASCADE,
 	to_node_id INTEGER REFERENCES nodes
 );

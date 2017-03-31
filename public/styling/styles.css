@@ -1,10 +1,34 @@
 /*Much styling needs to happen here*/
 body {
-  background-color: #f8ffe6 ;
-  }
+  background-color: #ebfeef;
+  font-family: 'Muli', sans-serif;
+}
+
+td.editable-click {
+    color: #694b62;
+    border-bottom: dashed 1px black;
+}
+td.editable-click:hover {
+    color: #d3a7fa;
+    border-bottom-color: #d3a7fa;
+}
+
+.tree-listing {
+  background-color: #e2eedd;
+  border-radius: 5px;
+}
+
+.node-editor {
+  border-collapse: separate;
+  border-spacing: 1em;
+}
+
+.baseline {
+  position: fixed;
+  bottom: 0;
+}
 
 .image {
-
   text-align: center;
   margin: 0 auto;
   width: 50%;
@@ -52,22 +76,28 @@ td{
 }
 
 .login-buttons {
-float: right;
+  float: right;
+  top: 0;
 }
 
 .login {
-color: blue;
-background: transparent;
-border: 0;
-margin-left: 10px;
+  color: blue;
+  background: transparent;
+  border: 0;
+  margin-left: 10px;
+  float: right;
 }
 
 .back {
-margin: 20px;
-appearance: none;
--webkit-appearance: none;
--moz-appearance: none;
-outline: none;
-border: 0;
-background: transparent;
+  margin: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+}
+
+.link {
+  margin-right: 10px;
 }

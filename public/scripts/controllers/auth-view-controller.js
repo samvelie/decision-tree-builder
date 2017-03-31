@@ -1,4 +1,4 @@
-app.controller('TreeViewController', ['TreeFactory', '$firebaseAuth', '$routeParams', function(TreeFactory, $firebaseAuth, $routeParams) {
+app.controller('AuthViewController', ['TreeFactory', '$firebaseAuth', '$routeParams', function(TreeFactory, $firebaseAuth, $routeParams) {
   var auth = $firebaseAuth();
   var self = this;
 

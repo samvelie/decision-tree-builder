@@ -15,9 +15,9 @@ var tokenDecoder = function(req, res, next){
     admin.auth().verifyIdToken(req.headers.id_token).then(function(decodedToken) {
       // Adding the decodedToken to the request so that downstream processes can use it
       req.decodedToken = decodedToken;
+      var userEmail = req.decodedToken.email;
       //run query for user id, if successful do next
-      pool.connect(function(err, client, done){ //attaching userID to every auth request
-        var userEmail = req.decodedToken.email;
+      pool.connect(function(err, client, done) { //attaching userID to every auth request
         client.query('SELECT id FROM users WHERE email=$1;', [userEmail], function(err, userQueryResult){
           done();
           if(err){

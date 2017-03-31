@@ -5,24 +5,23 @@
 </div>
 <div ng-if="tec.treeData.treeInfo.length != 0">
   <input type= "text" class="form-control input-lg" ng-model="tec.treeData.treeInfo[0].tree_name">
-  {{tec.treeData.treeInfo[0].tree_name}}
   <button class="btn btn-info" ng-click="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">Update Name</button>
 </div>
 <table class= "table">
  <thead>
    <tr>
      <th>Question Node</th>
-     <th>Edit</th>
+     <th>View and Edit Branches</th>
      <th>Delete</th>
    </tr>
  </thead>
  <tbody>
    <tr ng-repeat="node in tec.treeData.nodeInfo">
-     <td ng-class="{'tree-end': {{node.tree_end}}}">
+     <td ng-class="{'tree-end': {{node.tree_end}}}" onaftersave="tec.updateNodeName(node)" editable-text="node.content">
        {{node.content}}
      </td>
      <td>
-       <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">Edit</a>
+       <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">View/Edit</a>
      </td>
      <td>
        <button type="button" name="button" class= "btn btn-danger" ng-click="tec.deleteNode(node.id)">X</button>
@@ -30,7 +29,7 @@
    </tr>
    <tr>
      <td>
-       <input type="text" placeholder="Add New Question Node" class="form-control input-sm" ng-model="tec.newNode">{{tec.newNode}}
+       <input type="text" placeholder="Add New Question Node" class="form-control input-sm" ng-model="tec.newNode">
      </td>
 
      <td>

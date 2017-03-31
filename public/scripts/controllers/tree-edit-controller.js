@@ -16,11 +16,10 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     self.newTree = {treeName:''};
   } else {
     console.log('treeId seems OK:', treeId);
-      getTreeEditInfo(treeId);
-
+      auth.$onAuthStateChanged(getTreeEditInfo);
   }
 
-  function getTreeEditInfo(treeId) {
+  function getTreeEditInfo() {
     TreeFactory.getTreeWithNodes(treeId);
   }
 
@@ -43,6 +42,11 @@ app.controller('TreeEditController', ['TreeFactory', '$firebaseAuth', '$http', '
     console.log('treeditor addNodeToTree using:', nodeContent);
     treeId =  self.treeData.treeInfo[0].id;
     TreeFactory.addNode(nodeContent, treeId);
+  };
+
+  self.updateNodeName = function(node) {
+    console.log(node);
+    TreeFactory.editNode(node);
   };
 
   self.deleteNode = function(nodeId) {
