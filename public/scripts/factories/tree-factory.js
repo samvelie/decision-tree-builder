@@ -453,6 +453,7 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
     editUserTree: editUserTree,
     toggleTreeStatus: toggleTreeStatus,
     editResponseText: editResponseText,
+    updateResponse: updateResponse,
     editNode: editNode,
     removeTree: removeTree,
     removeNode: removeNode,

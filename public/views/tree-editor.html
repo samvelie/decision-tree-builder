@@ -17,7 +17,7 @@
  </thead>
  <tbody>
    <tr ng-repeat="node in tec.treeData.nodeInfo">
-     <td ng-class="{'tree-end': {{node.tree_end}}}" onaftersave="tec.updateNodeName(node)" editable-textarea="node.content">
+     <td onaftersave="tec.updateNodeName(node)" editable-textarea="node.content">
        {{node.content}}
      </td>
      <td>

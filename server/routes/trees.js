@@ -11,15 +11,15 @@ var pool = new pg.Pool(config);
 router.get('/', function(req, res) {
   var userId = req.userId;
   pool.connect(function(err, client, done) {
-      client.query('SELECT * FROM trees WHERE creator_id=$1;', [userId], function(err, getTreesResult) {
-       done();
-       if(err) {
-         console.log('error completing tree query:', err);
-         res.sendStatus(500);
-       } else {
-         res.send(getTreesResult.rows);
-       }
-      });//end query for tree list
+    client.query('SELECT * FROM trees WHERE creator_id=$1;', [userId], function(err, getTreesResult) {
+      done();
+      if(err) {
+        console.log('error completing tree query:', err);
+        res.sendStatus(500);
+      } else {
+        res.send(getTreesResult.rows);
+      }
+    });//end query for tree list
   });//end pool.connect
 });//end router.get
 
@@ -28,15 +28,15 @@ router.post('/', function(req, res) {
   var userId = req.userId;
   var treeName =req.body.treeName;
   pool.connect(function(err, client, done) {
-      client.query('INSERT INTO trees (tree_name, creator_id) VALUES ($1, $2) RETURNING id, tree_name;', [treeName, userId], function(err, result) {
-       done();
-       if(err) {
-         console.log('error adding tree to db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.send(result.rows);
-       }
-     });//end query for adding tree
+    client.query('INSERT INTO trees (tree_name, creator_id) VALUES ($1, $2) RETURNING id, tree_name;', [treeName, userId], function(err, result) {
+      done();
+      if(err) {
+        console.log('error adding tree to db; query error:', err);
+        res.sendStatus(500);
+      } else {
+        res.send(result.rows);
+      }
+    });//end query for adding tree
   });//end pool.connect
 });//end router.post
 
@@ -46,16 +46,16 @@ router.get('/tree/:treeId', function(req, res) {
   var treeId = req.params.treeId;
   console.log('getting tree with id:', treeId);
   pool.connect(function(err, client, done) {
-      client.query('SELECT * FROM trees WHERE creator_id=$1 AND id=$2;', [userId, treeId], function(err, result) {
-       done();
-       if(err) {
-         console.log('error completing specific tree query:', err);
-         res.sendStatus(500);
-       } else {
-         console.log('got tree');
-         res.send(result.rows);
-       }
-      });//end query for tree list
+    client.query('SELECT * FROM trees WHERE creator_id=$1 AND id=$2;', [userId, treeId], function(err, result) {
+      done();
+      if(err) {
+        console.log('error completing specific tree query:', err);
+        res.sendStatus(500);
+      } else {
+        console.log('got tree');
+        res.send(result.rows);
+      }
+    });//end query for tree list
   });//end pool.connect
 });//end router.get for specific tree
 
@@ -64,16 +64,16 @@ router.put('/:id', function(req, res) {
   var treeId = req.params.id;
   var treeName = req.body.treeName;
   pool.connect(function(err, client, done) {
-       client.query('UPDATE trees SET tree_name=$1 WHERE id=$2;',
-       [treeName, treeId], function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating tree in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating tree
+    client.query('UPDATE trees SET tree_name=$1 WHERE id=$2;',
+    [treeName, treeId], function(err, result) {
+      done();
+      if(err) {
+        console.log('error updating tree in db; query error:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end query for updating tree
   });//end pool.connect
 });
 
@@ -82,16 +82,16 @@ router.put('/flip/:treeId', function(req, res) {
   var treeId = req.params.treeId;
   var userId = req.userId; //for security
   pool.connect(function(err, client, done) {
-       client.query('UPDATE trees SET public = NOT public WHERE trees.id=$1 AND trees.creator_id=$2;',
-       [treeId, userId], function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating tree in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating tree public status
+    client.query('UPDATE trees SET public = NOT public WHERE trees.id=$1 AND trees.creator_id=$2;',
+    [treeId, userId], function(err, result) {
+      done();
+      if(err) {
+        console.log('error updating tree in db; query error:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end query for updating tree public status
   });//end pool.connect
 });
 
@@ -101,16 +101,16 @@ router.delete('/tree/:treeId', function(req, res) {
   var treeId = req.params.treeId;
   console.log('deleting tree with id:', treeId);
   pool.connect(function(err, client, done) {
-      client.query('DELETE FROM trees WHERE creator_id=$1 AND id=$2;', [userId, treeId], function(err, result) {
-       done();
-       if(err) {
-         console.log('error completing tree delete query:', err);
-         res.sendStatus(500);
-       } else {
-         console.log('deleted tree');
-         res.sendStatus(200);
-       }
-      });//end query for tree list
+    client.query('DELETE FROM trees WHERE creator_id=$1 AND id=$2;', [userId, treeId], function(err, result) {
+      done();
+      if(err) {
+        console.log('error completing tree delete query:', err);
+        res.sendStatus(500);
+      } else {
+        console.log('deleted tree');
+        res.sendStatus(200);
+      }
+    });//end query for tree list
   });//end pool.connect
 });//end router.get
 
@@ -141,7 +141,7 @@ router.get('/nodes/:treeId', function(req, res) {
   var userId = req.userId; //ensures nodes are only grabbed for trees made by this user
   var treeId = req.params.treeId;
   pool.connect(function(err, client, done) {
-    client.query('SELECT nodes.id, nodes.tree_id, content, tree_end FROM nodes JOIN trees ON nodes.tree_id = trees.id WHERE trees.creator_id=$1 AND tree_id=$2;',
+    client.query('SELECT nodes.id, nodes.tree_id, content FROM nodes JOIN trees ON nodes.tree_id = trees.id WHERE trees.creator_id=$1 AND tree_id=$2;',
     [userId, treeId],
     function(err, getNodesResult) {
       done();
@@ -200,17 +200,17 @@ router.put('/nodes/:nodeId', function(req,res) {
   var updatedContent = req.body.content;
 
   pool.connect(function(err, client, done) {
-       client.query('UPDATE nodes SET content=$1 WHERE id=$2;',
-       [updatedContent, nodeId],
-       function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating node in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating node
+    client.query('UPDATE nodes SET content=$1 WHERE id=$2;',
+    [updatedContent, nodeId],
+    function(err, result) {
+      done();
+      if(err) {
+        console.log('error updating node in db; query error:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end query for updating node
   });//end pool.connect
 })
 
@@ -270,7 +270,7 @@ router.get('/:id/options/:nodeId', function(req,res) {
         console.log('error completing query for options on node:', err);
         res.sendStatus(500);
       } else {
-        console.log('checking for followUpNodes');
+        console.log('checking for followUpNodes on', optionsResult.rows);
 
         var sqlCounter = 0; //this counter determines that the database will be queried again if > 0
         var pgQueryString = 'nodes.id=$1'; // if sqlCounter>1, this string will look like nodes.id=$1 OR nodes.id=$2...
@@ -286,6 +286,7 @@ router.get('/:id/options/:nodeId', function(req,res) {
           }
         }
 
+        console.log(nodeIdArray);
         if(sqlCounter>0) {
           pool.connect(function(err, client, done) {
             client.query('SELECT * FROM nodes WHERE ' + pgQueryString + ' ORDER BY nodes.id;',
@@ -297,15 +298,26 @@ router.get('/:id/options/:nodeId', function(req,res) {
                 res.sendStatus(500);
               } else {
                 console.log('got followUpNodes');
-                res.send([optionsResult.rows, followUpNodesResult.rows]);
+
+                //when nodeIdArray has duplicate values, the database only returns one element matching that value. This if check ensures the sent array is the same length as the needed length for displaying all options
+                if (nodeIdArray.length !== followUpNodesResult.rows.length) {
+                  var sendTheseFollowUpNodes = [];
+                  for (var j = 0; j < nodeIdArray.length; j++) {
+                    for (var k = 0; k < followUpNodesResult.rows.length; k++) {
+                      if (followUpNodesResult.rows[k].id==nodeIdArray[j]) {
+                        sendTheseFollowUpNodes.push(followUpNodesResult.rows[k]);
+                      }
+                    }
+                  }
+                  res.send([optionsResult.rows, sendTheseFollowUpNodes]);
+                } else { res.send([optionsResult.rows, followUpNodesResult.rows]);}
+
               }
             }); //end client.query for getting follow up nodes
           }); //end pool.connect for nodes
         } else {
           res.send([optionsResult.rows]);
         }
-
-
       }
     });//end client.query for getting options
   });//end pool.connect
@@ -317,17 +329,17 @@ router.put('/options/:optionId', function(req,res) {
   var optionId = req.params.optionId;
   console.log('In put with', updatedText);
   pool.connect(function(err, client, done) {
-       client.query('UPDATE options SET response_text=$1 WHERE id=$2;',
-       [updatedText, optionId],
-       function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating option in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating option text
+    client.query('UPDATE options SET response_text=$1 WHERE id=$2;',
+    [updatedText, optionId],
+    function(err, result) {
+      done();
+      if(err) {
+        console.log('error updating option in db; query error:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end query for updating option text
   });//end pool.connect
 });
 
@@ -337,17 +349,17 @@ router.put('/options/:optionId/:toNodeId', function(req,res) {
   var toNodeId = req.params.toNodeId;
   console.log('updating ' + optionId + ' with toNodeId ' + toNodeId);
   pool.connect(function(err, client, done) {
-       client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;',
-       [toNodeId, optionId],
-       function(err, result) {
-       done();
-       if(err) {
-         console.log('error updating option in db; query error:', err);
-         res.sendStatus(500);
-       } else {
-         res.sendStatus(200);
-       }
-     });//end query for updating option
+    client.query('UPDATE options SET to_node_id=$1 WHERE id=$2;',
+    [toNodeId, optionId],
+    function(err, result) {
+      done();
+      if(err) {
+        console.log('error updating option in db; query error:', err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });//end query for updating option
   });//end pool.connect
 });// end router.put for adding to_node_id to option
 

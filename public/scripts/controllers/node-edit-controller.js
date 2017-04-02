@@ -12,9 +12,14 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
   //get node
   //get options
   auth.$onAuthStateChanged(getNodeEditInfo);
+  auth.$onAuthStateChanged(getAllNodesForTree);
 
   function getNodeEditInfo() {
     TreeFactory.getNodeWithResponses(thisTreeId, thisNodeId);
+  }
+
+  function getAllNodesForTree() {
+    TreeFactory.getTreeWithNodes(thisTreeId);
   }
 
   //add node (post)
@@ -30,10 +35,11 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
     console.log(nodeToUpdate);
     var followNodeId = nodeToUpdate.id;
     TreeFactory.editNode(nodeToUpdate);
-    $location.url('/edit/' + thisTreeId + '/' + followNodeId);
   };
 
-
+  self.followNode = function (followNodeId) {
+    $location.url('/edit/' + thisTreeId + '/' + followNodeId);
+  }
 
   //add options (post)
   self.addResponse = function(text) {
@@ -43,7 +49,7 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
 
   //edit options (put)
   self.editResponseText = function(response) {
-    console.log(response);
+    console.log('editing:', response);
     TreeFactory.editResponseText(response, thisTreeId);
   };
 
@@ -52,8 +58,9 @@ app.controller('NodeEditController', ['TreeFactory', '$firebaseAuth', '$routePar
     TreeFactory.removeResponse(responseId, thisTreeId, thisNodeId);
   };
 
-  self.treeSave = function() {
-    console.log('saving a tree');
+  //select existing node
+  self.selectExistingNode = function (selectedNodeId, responseId) {
+    TreeFactory.updateResponse(responseId, selectedNodeId, thisTreeId, thisNodeId);
   };
 
 

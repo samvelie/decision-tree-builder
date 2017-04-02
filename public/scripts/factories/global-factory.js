@@ -28,8 +28,7 @@ app.factory('GlobalFactory', ['$http', function($http) {
       for (var i = 0; i < response.data.length; i++) {
         nodeInfoArray.push({
           nodeId: response.data[i].nodeId,
-          content: response.data[i].content,
-          tree_end: response.data[i].tree_end
+          content: response.data[i].content
         });
         }
 

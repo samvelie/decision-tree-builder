@@ -7,10 +7,12 @@ body {
 td.editable-textarea {
   width:100%;
 }
+
 td.editable-click {
     color: #694b62;
-    border-bottom: dashed 1px black;
+    border-bottom: 1px  solid black;
 }
+
 td.editable-click:hover {
     color: #d3a7fa;
     border-bottom-color: #d3a7fa;

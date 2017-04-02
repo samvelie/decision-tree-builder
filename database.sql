@@ -13,7 +13,6 @@ CREATE TABLE trees (
 CREATE TABLE nodes (
 	id SERIAL PRIMARY KEY,
 	"content" TEXT,
-	tree_end BOOLEAN DEFAULT false,
 	tree_id INTEGER REFERENCES trees ON DELETE CASCADE
 );
 
