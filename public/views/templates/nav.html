@@ -1,6 +1,9 @@
 <nav class="navbar" ng-controller="LoginController as lc">
 <div>
   <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="link intro" href="#!login"><span class="glyphicon glyphicon-tree-deciduous" alt="Go to Main Login"></span></a>
+    </div>
     <div class="navbar-header" ng-if="lc.loggedIn.value">
       <a class="link intro" href="#!hq"><span class="glyphicon glyphicon-home" alt="Go to HQ"></span></a>
     </div>

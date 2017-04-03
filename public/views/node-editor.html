@@ -1,6 +1,7 @@
 <h1>Node Editor</h1>
 
 <h2>Editing Node: {{nec.nodeInfo.node[0].content}}</h2>
+<p><a ng-href="#!view/{{nec.treeNodes.treeInfo[0].id}}">View This Tree</a></p>
 <table class="node-editor">
   <thead>
     <tr>
@@ -42,18 +43,18 @@
 
         <textarea ng-show="!nec.selectPrevious[$index]"  type="text-area" class="form-control" ng-model="nec.followUpQuestion[$index]" placeholder="follow-up node"></textarea>
 
-        <select ng-show="nec.selectPrevious[$index]" ng-model="nec.selectedExistingNode[$index]" ng-options="node.content for node in nec.treeNodes.nodeInfo" value="{{node}}">
+        <select class="form-control" ng-show="nec.selectPrevious[$index]" ng-model="nec.selectedExistingNode[$index]" ng-options="node.content for node in nec.treeNodes.nodeInfo" value="{{node}}">
         </select>
 
       </td>
-      <td>
+      <td ng-if="!response.to_node_id">
         <button ng-show="!nec.selectPrevious[$index]" ng-if="!response.to_node_id" type="button" class="btn btn-info" ng-click="nec.addNodeToResponse(nec.followUpQuestion[$index], response.id)">Save</button>
 
         <button ng-show="nec.selectPrevious[$index]" type="button" class="btn btn-info" ng-click="nec.selectExistingNode(nec.selectedExistingNode[$index].id, response.id)">Save</button>
       </td>
       <td> <span class="glyphicon glyphicon-triangle-right"></span></td>
       <td>
-        <button ng-if="response.to_node_id" type="button" class="btn btn-primary" ng-click="nec.followNode(response.to_node_id)">Go to this Node</button>
+        <button ng-if="response.to_node_id" type="button" class="btn btn-primary" ng-click="nec.followNode(response.to_node_id)">Go Edit This Node</button>
       </td>
     </tr>
 
@@ -68,26 +69,3 @@
     </tr>
   </tbody>
 </table>
-
-
-
-
-
-
-
-
-<!-- {{nec.treeNodes.nodeInfo}} -->
-
-
-<!-- <input list="testList" type="" ng-model="nec.selectedNode" ng-change="LoadSessionData(SelectedDoctor)" />
-<datalist id="testList">
-    <option ng-repeat="x1 in names" value="{{x1.drname}}">
-</datalist> -->
-
-<!-- //data for ng-repeat
-    $scope.names=[{'drname':'Dr.Test1'},{'drname':'Dr.Test2'},{'drname':'Dr.Test3'}]
-
-    $scope.LoadSessionData = function(val) {
-//console log
-        console.log(val);
-} -->

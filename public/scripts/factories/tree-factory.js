@@ -12,10 +12,13 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
     loggedIn.value = firebaseUser !== null;
     if (loggedIn.value) {
       console.log('user is logged in');
+    } else {
+      clearData();
     }
   });
 
   function clearData() {
+    console.log('clearing data');
     userTrees = { list: [] };
     treeWithNodes = {};
     nodeWithResponses = {};
@@ -48,11 +51,6 @@ app.factory('TreeFactory', ['$firebaseAuth', '$http', 'GlobalFactory', function(
   }
 
   //add a node to tree
-  /**
-  * @function sends new node data to server, updates current node with results
-  * @param {String} nodeContent text content for this node
-  * @param {String} treeId DB id for this tree
-  **/
   function addNode(nodeContent, treeId, fromResponseId, currentNodeId) {
     console.log('addNode running with ' + nodeContent + ' on treeId: ' + treeId);
     var firebaseUser = auth.$getAuth();

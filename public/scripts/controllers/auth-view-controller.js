@@ -6,7 +6,7 @@ app.controller('AuthViewController', ['TreeFactory', '$firebaseAuth', '$routePar
 
   var nodeIdOrder = []; //tracks node id journey for back button operation;
 
-  self.tree = treeId; //for testing
+  self.tree = treeId;
 
   self.nodeInfo = TreeFactory.nodeWithResponses;
 

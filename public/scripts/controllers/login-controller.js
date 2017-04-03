@@ -3,7 +3,6 @@ app.controller('LoginController', ['TreeFactory', '$firebaseAuth', '$location', 
   var self = this;
 
   self.pageUrl = $location.$$url; //variable to hide/show the navbar
-  console.log(self.pageUrl);
 
   self.loggedIn = TreeFactory.loggedIn;
 

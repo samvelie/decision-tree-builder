@@ -13,7 +13,6 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
       getTrees();
     } else {
       console.log('Not logged in or not authorized.');
-      getTrees();
     }
   });
 
@@ -21,6 +20,7 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
   self.addTree = function(treeObject) {
     console.log('hq controller ask factory to add tree');
     TreeFactory.addTree(treeObject);
+    self.newTree ={};
   };
 
   // deleteTree will delete a tree and all connected nodes and options based on the SQL cascade delete design
@@ -31,7 +31,7 @@ app.controller('HomeController', ['TreeFactory', '$firebaseAuth', '$http', funct
   self.makePublic = function(treeId) {
     console.log('ng change working on', treeId);
     TreeFactory.toggleTreeStatus(treeId);
-  }
+  };
 
   function getTrees(){
     console.log('in hq getTrees: asking factory to get trees');

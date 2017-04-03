@@ -168,6 +168,7 @@ router.get('/starting/:id', function(req,res) {
         console.log('error completing 1st node query on tree:', err);
         res.sendStatus(500);
       } else {
+        console.log('startingQuestionResult', startingQuestionResult.rows);
         res.send(startingQuestionResult.rows);
       }
     });//end client.query for selecting first question
@@ -212,7 +213,7 @@ router.put('/nodes/:nodeId', function(req,res) {
       }
     });//end query for updating node
   });//end pool.connect
-})
+});
 
 //removes node
 router.delete('/nodes/:nodeId', function(req, res) {

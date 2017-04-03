@@ -18,6 +18,31 @@ td.editable-click:hover {
     border-bottom-color: #d3a7fa;
 }
 
+span.editable-text {
+  width: 100%;
+}
+
+span.editable-click {
+    color: #694b62;
+    border: 0;
+}
+
+span.editable-click:hover {
+    color: #d3a7fa;
+}
+
+h2 .form-control, h2 .form-inline {
+  width: 100%;
+  font-size: inherit;
+  display: inline;
+}
+
+.form-inline .form-control {
+    display: inline;
+    width: 100%;
+    vertical-align: middle;
+}
+
 .tree-listing h3 {
   margin-top: 0px;
 }

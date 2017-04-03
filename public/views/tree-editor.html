@@ -4,14 +4,14 @@
   <button class="btn btn-primary" ng-click="tec.saveTreeName('new', tec.newTree)">Save</button>
 </div>
 <div ng-if="tec.treeData.treeInfo">
-  <input type= "text" class="form-control input-lg" ng-model="tec.treeData.treeInfo[0].tree_name">
-  <button class="btn btn-info" ng-click="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">Update Name</button>
+  <h2>Editing Tree: <span editable-text="tec.treeData.treeInfo[0].tree_name" onaftersave="tec.saveTreeName(tec.treeData.treeInfo[0].id, tec.treeData.treeInfo[0].tree_name)">{{tec.treeData.treeInfo[0].tree_name}}</span></h2>
+  <p><a ng-href="#!view/{{tec.treeData.treeInfo[0].id}}">View This Tree</a></p>
 </div>
 <table class= "table">
  <thead>
    <tr>
-     <th>Question Node</th>
-     <th>View and Edit Branches</th>
+     <th>Question Node(s)</th>
+     <th>Add/Edit Responses</th>
      <th>Delete</th>
    </tr>
  </thead>
@@ -21,7 +21,7 @@
        {{node.content}}
      </td>
      <td>
-       <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">View/Edit</a>
+       <a ng-href="#!edit/{{node.tree_id}}/{{node.id}}">Build Branch</a>
      </td>
      <td>
        <button type="button" name="button" class= "btn btn-danger" ng-click="tec.deleteNode(node.id)">X</button>

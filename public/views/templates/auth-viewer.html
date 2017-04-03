@@ -1,17 +1,20 @@
 <div class="container text-center">
-  <h2 ng-class= "{'tree-end': tvc.nodeInfo.responses.length==0}">{{tvc.nodeInfo.node[0].content}}</h2>
+  <h2 ng-class= "{'tree-end': avc.nodeInfo.responses.length==0}">{{avc.nodeInfo.node[0].content}}</h2>
 </div>
 
-<div class="container text-center" ng-if="tvc.nodeInfo.responses.length>0">
-  <span ng-repeat= "response in tvc.nodeInfo.responses">
-    <button class="btn btn-lg" ng-disabled="!response.to_node_id" ng-click="tvc.getNextQuestion(response.from_node_id, response.to_node_id)">{{response.response_text}}</button>
+<div class="container text-center" ng-if="avc.nodeInfo.responses.length>0">
+  <span ng-repeat= "response in avc.nodeInfo.responses">
+    <button class="btn btn-lg" ng-disabled="!response.to_node_id" ng-click="avc.getNextQuestion(response.from_node_id, response.to_node_id)">{{response.response_text}}</button>
   </span>
 </div>
 
-<div class="container text-center" ng-if="tvc.nodeInfo.responses.length==0">
+<div class="container text-center" ng-if="avc.nodeInfo.responses.length==0">
   <p>[Tree End.]</p>
 </div>
 
-<div class="container text-center" ng-if="tvc.nodeInfo.node[0].id != tvc.nodeInfo.starting.id">
-  <button class= "btn back" ng-click="tvc.previousQuestion()"><img src="../../styling/fonts/glyphicon-arrow-left.png" alt="previous question"></button>
+<div class="container text-center" ng-if="avc.nodeInfo.node[0].id != avc.nodeInfo.starting.id">
+  <button class= "btn back" ng-click="avc.previousQuestion()"><img src="../../styling/fonts/glyphicon-arrow-left.png" alt="previous question"></button>
 </div>
+
+
+<p class="baseline text-right"><a ng-href="#!edit/{{avc.tree}}">Edit This Tree</a></p>
