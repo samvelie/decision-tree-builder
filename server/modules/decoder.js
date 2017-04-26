@@ -15,25 +15,24 @@ var tokenDecoder = function(req, res, next){
     admin.auth().verifyIdToken(req.headers.id_token).then(function(decodedToken) {
       // Adding the decodedToken to the request so that downstream processes can use it
       req.decodedToken = decodedToken;
-      var userEmail = req.decodedToken.email;
+      var userEmail = decodedToken.email;
       //run query for user id, if successful do next
-      pool.connect(function(err, client1, done) { //attaching userID to every auth request
-        client1.query('SELECT id FROM users WHERE email=$1;', [userEmail], function(err, userQueryResult){
+      pool.connect(function(err, client, done) { //attaching userID to every auth request
+        client.query('SELECT id FROM users WHERE email=$1;', [userEmail], function(err, userQueryResult){
           done();
           if(err){
             console.log('error connecting to db on user query:', err);
             res.sendStatus(500);
           } else {
-              pool.connect(function(err,client2,done) {
                 if(userQueryResult.rowCount === 0) { //if user does not exist, add them to user list, keep id
-                  client2.query('INSERT INTO users (email) VALUES ($1) RETURNING id;', [userEmail], function(err, result){
+                  client.query('INSERT INTO users (email) VALUES ($1) RETURNING id;', [userEmail], function(err, result) {
                     done();
                     if(err) {
                       console.log('error connecting to db on user add:', err);
                       res.sendStatus(500);
                     } else {
                       console.log('userId added and authenticated:', result.rows[0].id);
-                      req.userId = userQueryResult.rows[0].id;
+                      req.userId = result.rows[0].id;
                       next();
                     }
                   });
@@ -42,7 +41,6 @@ var tokenDecoder = function(req, res, next){
                   req.userId = userQueryResult.rows[0].id;
                   next();
                 }
-              });
           }
         }); //end user select query
       });
@@ -56,7 +54,7 @@ var tokenDecoder = function(req, res, next){
   } else {
     // Seems to be hit when chrome makes request for map files
     // Will also be hit when user does not send back an idToken in the header
-    console.log('something went wrong decoding token', req.headers);
+    console.log('id_token undefined');
     res.sendStatus(403);
   }
 };
