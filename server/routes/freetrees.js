@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
-var config = require('../modules/database-config');
+var pool = require('../modules/database-config');
 
-var pool = new pg.Pool(config);
+// var pool = new pg.Pool(config);
 
 //gets list of global trees
 router.get('/', function(req, res) {

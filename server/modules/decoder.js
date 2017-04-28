@@ -1,13 +1,33 @@
 var admin = require("firebase-admin");
 var pg = require('pg');
-var config = require('../modules/database-config');
+var pool = require('../modules/database-config');
 
-var pool = new pg.Pool(config);
+// var pool = new pg.Pool(config);
 
-admin.initializeApp({
-  credential: admin.credential.cert("./server/firebase-service-account.json"),
-  databaseURL: "https://decision-trees.firebaseio.com"
-});
+if(process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      "type": process.env.FIREBASE_SERVICE_ACCOUNT_TYPE,
+      "project_id": process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+      "private_key_id": process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
+      "private_key": process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY,
+      "client_email": process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+      "client_id": process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_ID,
+      "auth_uri": process.env.FIREBASE_SERVICE_ACCOUNT_AUTH_URI,
+      "token_uri": process.env.FIREBASE_SERVICE_ACCOUNT_TOKEN_URI,
+      "auth_provider_x509_cert_url": process.env.FIREBASE_SERVICE_ACCOUNT_AUTH_PROVIDER_X509_CERT_URL,
+      "client_x509_cert_url": process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_X509_CERT_URL
+    }),
+    databaseURL: "https://decision-trees.firebaseio.com"
+  });
+} else {
+  admin.initializeApp({
+    credential: admin.credential.cert("./server/firebase-service-account.json"),
+    databaseURL: "https://decision-trees.firebaseio.com"
+  });
+}
+
+
 
 // runs to deal with all incoming requests
 var tokenDecoder = function(req, res, next){
